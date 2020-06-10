@@ -3,7 +3,7 @@ package com.blogspot.soyamr.thelonging2;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-public class ChibiCharacter extends GameObject {
+public class VovaCharacter extends GameObject {
 
     private static final int ROW_TOP_TO_BOTTOM = 0;
     private static final int ROW_RIGHT_TO_LEFT = 1;
@@ -30,7 +30,7 @@ public class ChibiCharacter extends GameObject {
 
     private GameSurface gameSurface;
 
-    public ChibiCharacter(GameSurface gameSurface, Bitmap image, int x, int y) {
+    public VovaCharacter(GameSurface gameSurface, Bitmap image, int x, int y) {
         super(image, 4, 3, x, y);
 
         this.gameSurface = gameSurface;

@@ -19,7 +19,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     private GameThread gameThread;
 
-    private final List<ChibiCharacter> chibiList = new ArrayList<>();
+    private final List<VovaCharacter> vovaList = new ArrayList<>();
     private final List<Explosion> explosionList = new ArrayList<>();
 
     private static final int MAX_STREAMS = 100;
@@ -45,12 +45,12 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     private void initChibiCharacter() {
         Bitmap chibiBitmap1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.chibi1);
-        ChibiCharacter chibi1 = new ChibiCharacter(this, chibiBitmap1, 100, 50);
+        VovaCharacter chibi1 = new VovaCharacter(this, chibiBitmap1, 100, 50);
 
 //        Bitmap chibiBitmap2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.chibi2);
 //        ChibiCharacter chibi2 = new ChibiCharacter(this, chibiBitmap2, 300, 150);
 
-        this.chibiList.add(chibi1);
+        this.vovaList.add(chibi1);
 //        this.chibiList.add(chibi2);
     }
 
@@ -110,11 +110,11 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
             int x = (int) event.getX();
             int y = (int) event.getY();
 
-            Iterator<ChibiCharacter> iterator = this.chibiList.iterator();
+            Iterator<VovaCharacter> iterator = this.vovaList.iterator();
 
 
             while (iterator.hasNext()) {
-                ChibiCharacter chibi = iterator.next();
+                VovaCharacter chibi = iterator.next();
                 if (chibi.getX() < x && x < chibi.getX() + chibi.getCharacterWidth()
                         && chibi.getY() < y && y < chibi.getY() + chibi.getCharacterHeight()) {
                     // Remove the current element from the iterator and the list.
@@ -129,7 +129,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
             }
 
 
-            for (ChibiCharacter chibi : chibiList) {
+            for (VovaCharacter chibi : vovaList) {
                 int movingVectorX = x - chibi.getX();
                 int movingVectorY = y - chibi.getY();
                 chibi.setMovingVector(movingVectorX, movingVectorY);
@@ -140,7 +140,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        for (ChibiCharacter chibi : chibiList) {
+        for (VovaCharacter chibi : vovaList) {
             chibi.update();
         }
         for (Explosion explosion : this.explosionList) {
@@ -162,7 +162,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        for (ChibiCharacter chibi : chibiList) {
+        for (VovaCharacter chibi : vovaList) {
             chibi.draw(canvas);
         }
 
