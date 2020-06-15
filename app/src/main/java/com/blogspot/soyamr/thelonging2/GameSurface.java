@@ -1,10 +1,10 @@
 package com.blogspot.soyamr.thelonging2;
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.view.MotionEvent;
@@ -12,15 +12,17 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
+public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, Controller {
 
     private GameThread gameThread;
 
     private final List<VovaCharacter> vovaList = new ArrayList<>();
     private final List<Explosion> explosionList = new ArrayList<>();
+
+    Room currentRoom;
+    private RoomParent roomParent;
 
     private static final int MAX_STREAMS = 100;
     private int soundIdExplosion;
@@ -28,10 +30,11 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     private boolean soundPoolLoaded;
     private SoundPool soundPool;
+    private ViewParent refToParent;
 
-
-    public GameSurface(Context context) {
-        super(context);
+    public GameSurface(ViewParent object) {
+        super(object.getContext());
+        refToParent = object;
 
         // Make Game Surface focusable so it can handle events.
         this.setFocusable(true);
@@ -40,12 +43,23 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
         this.getHolder().addCallback(this);
 
         this.initSoundPool();
-        this.initChibiCharacter();
+        this.initVovaCharacter();
+
+        roomParent =
+                new RoomParent(getRoomBitmap(R.drawable.background2),
+                        getRoomBitmap(R.drawable.room), this);
+        currentRoom = roomParent.getLivingRoom();
+
     }
 
-    private void initChibiCharacter() {
-        Bitmap chibiBitmap1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.chibi1);
-        VovaCharacter chibi1 = new VovaCharacter(this, chibiBitmap1, 100, 50);
+    private Bitmap getRoomBitmap(int roomID) {
+        return BitmapFactory.decodeResource(this.getResources(), roomID);
+    }
+
+
+    private void initVovaCharacter() {
+        Bitmap vova = BitmapFactory.decodeResource(this.getResources(), R.drawable.vova);
+        VovaCharacter chibi1 = new VovaCharacter(this, vova, 100, 50);
 
 //        Bitmap chibiBitmap2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.chibi2);
 //        ChibiCharacter chibi2 = new ChibiCharacter(this, chibiBitmap2, 300, 150);
@@ -109,61 +123,86 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
 
             int x = (int) event.getX();
             int y = (int) event.getY();
+//            Log.e("amr","y "+y);
+//            if (y < 600)
+//                return false;
 
-            Iterator<VovaCharacter> iterator = this.vovaList.iterator();
+//            Iterator<VovaCharacter> iterator = this.vovaList.iterator();
+//            while (iterator.hasNext()) {
+//                VovaCharacter chibi = iterator.next();
+//                if (chibi.getX() < x && x < chibi.getX() + chibi.getCharacterWidth()
+//                        && chibi.getY() < y && y < chibi.getY() + chibi.getCharacterHeight()) {
+//                    // Remove the current element from the iterator and the list.
+//                    iterator.remove();
+//
+//                    // Create Explosion object.
+//                    Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.explosion);
+//                    Explosion explosion = new Explosion(this, bitmap, chibi.getX(), chibi.getY());
+//
+//                    this.explosionList.add(explosion);
+//                }
+//            }
 
 
-            while (iterator.hasNext()) {
-                VovaCharacter chibi = iterator.next();
-                if (chibi.getX() < x && x < chibi.getX() + chibi.getCharacterWidth()
-                        && chibi.getY() < y && y < chibi.getY() + chibi.getCharacterHeight()) {
-                    // Remove the current element from the iterator and the list.
-                    iterator.remove();
-
-                    // Create Explosion object.
-                    Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.explosion);
-                    Explosion explosion = new Explosion(this, bitmap, chibi.getX(), chibi.getY());
-
-                    this.explosionList.add(explosion);
-                }
-            }
-
-
-            for (VovaCharacter chibi : vovaList) {
-                int movingVectorX = x - chibi.getX();
-                int movingVectorY = y - chibi.getY();
-                chibi.setMovingVector(movingVectorX, movingVectorY);
+            for (VovaCharacter vova : vovaList) {
+                //now the character foot will follow my touch instead of its head
+                int movingVectorX = x - vova.getCharacterWidth() - vova.getX();
+                int movingVectorY = y - vova.getCharacterHeight() - vova.getY();
+                vova.setMovingVector(movingVectorX, movingVectorY);
             }
             return true;
         }
         return false;
     }
 
+    public void changeBackground(Room room) {
+        currentRoom = room;
+        refToParent.changeBackground(room);
+    }
+
+    @Override
+    public void moveToTheRight() {
+        vovaList.get(0).moveToTheRightOfScreen();
+    }
+
+    @Override
+    public void moveToTheLeft() {
+        vovaList.get(0).moveToTheLeftOfScreen();
+    }
+
     public void update() {
-        for (VovaCharacter chibi : vovaList) {
-            chibi.update();
+        for (VovaCharacter vova : vovaList) {
+            vova.update();
         }
         for (Explosion explosion : this.explosionList) {
             explosion.update();
         }
+        currentRoom.hasReachedDoor(
+                vovaList.get(0).x,
+                vovaList.get(0).y);
 
-        Iterator<Explosion> iterator = this.explosionList.iterator();
-        while (iterator.hasNext()) {
-            Explosion explosion = iterator.next();
 
-            if (explosion.isFinish()) {
-                // If explosion finish, Remove the current element from the iterator & list.
-                iterator.remove();
-                continue;
-            }
-        }
+//        Iterator<Explosion> iterator = this.explosionList.iterator();
+//        while (iterator.hasNext()) {
+//            Explosion explosion = iterator.next();
+//
+//            if (explosion.isFinish()) {
+//                // If explosion finish, Remove the current element from the iterator & list.
+//                iterator.remove();
+//                continue;
+//            }
+//        }
+
+
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        for (VovaCharacter chibi : vovaList) {
-            chibi.draw(canvas);
+        for (VovaCharacter vova : vovaList) {
+//            currentRoom.hasReachedDoor(vova);
+            canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+            vova.draw(canvas);
         }
 
         for (Explosion explosion : this.explosionList) {
@@ -211,5 +250,6 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
         this.gameThread = new GameThread(this, holder);
         this.gameThread.setRunning(true);
         this.gameThread.start();
+        changeBackground(currentRoom);
     }
 }

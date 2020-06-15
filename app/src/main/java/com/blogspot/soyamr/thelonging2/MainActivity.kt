@@ -1,25 +1,60 @@
 package com.blogspot.soyamr.thelonging2
 
-import android.media.SoundPool
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.PixelFormat
 import android.os.Bundle
-import android.view.Window
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
-    lateinit var gameSurface:GameSurface
+
+class MainActivity : AppCompatActivity(),ViewParent {
+    lateinit var gameSurface: GameSurface
+    lateinit var backgroundImageView: ImageView
+    lateinit var currentRoom: Room
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Set fullscreen
+        //full screen
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
-         gameSurface = GameSurface(this)
-        setContentView(gameSurface)
+        );
 
 
+
+        gameSurface = GameSurface(this)
+        gameSurface.setZOrderOnTop(true)
+        gameSurface.getHolder().setFormat(PixelFormat.TRANSPARENT);
+
+
+        backgroundImageView = ImageView(this)
+        // Use a RelativeLayout to overlap both SurfaceView and ImageView
+        val fillParentLayout: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT
+        );
+        val rootLayout = RelativeLayout(this);
+        rootLayout.layoutParams = fillParentLayout;
+        rootLayout.addView(gameSurface, fillParentLayout);
+        rootLayout.addView(backgroundImageView, fillParentLayout);
+
+        setContentView(rootLayout)
+
+    }
+
+
+    override fun changeBackground(room: Room) {
+        this@MainActivity.runOnUiThread {
+            backgroundImageView.setImageBitmap(room.roomBitmap);
+            currentRoom = room
+        }
+    }
+
+    override fun getContext(): Context {
+        return this;
     }
 
     override fun onPause() {

@@ -30,6 +30,7 @@ public class GameThread extends Thread {
                 this.surfaceHolder.unlockCanvasAndPost(canvas);
             } catch (Exception e) {
                 // Do nothing.
+
             }
             long now = System.nanoTime();
             // Interval to redraw game

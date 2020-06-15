@@ -72,7 +72,7 @@ public class VovaCharacter extends GameObject {
     public void update() {
 
         //check if reached the target point or not
-        if (hasReachedTargetPoint(targetX, targetY))
+        if (hasReachedTargetPoint(targetX, targetY, movingVectorX, movingVectorY))
             return;
 
         if (++ctr % refreshRate == 0)
@@ -105,17 +105,21 @@ public class VovaCharacter extends GameObject {
         if (this.x < 0) {
             this.x = 0;
             this.movingVectorX = -this.movingVectorX;
-        } else if (this.x > this.gameSurface.getWidth() - characterWidth) {
-            this.x = this.gameSurface.getWidth() - characterWidth;
+            return;
+        } else if (this.x > this.gameSurface.getWidth() - getCharacterWidth()) {
+            this.x = this.gameSurface.getWidth() - getCharacterWidth();
             this.movingVectorX = -this.movingVectorX;
+//            return;
         }
 
         if (this.y < 0) {
             this.y = 0;
             this.movingVectorY = -this.movingVectorY;
-        } else if (this.y > this.gameSurface.getHeight() - characterHeight) {
-            this.y = this.gameSurface.getHeight() - characterHeight;
+            return;
+        } else if (this.y > this.gameSurface.getHeight() - getCharacterHeight()) {
+            this.y = this.gameSurface.getHeight() - getCharacterHeight();
             this.movingVectorY = -this.movingVectorY;
+//            return;
         }
 
         // rowUsing
@@ -155,7 +159,18 @@ public class VovaCharacter extends GameObject {
         this.movingVectorX = movingVectorX;
         this.movingVectorY = movingVectorY;
 
-        targetX = movingVectorX + x;
-        targetY = movingVectorY + y;
+        targetX = movingVectorX + x + getCharacterWidth();
+        targetY = movingVectorY + y + getCharacterHeight();
+    }
+
+    void moveToTheRightOfScreen() {
+        x = 1800;
+        y = 500;
+    }
+
+    void moveToTheLeftOfScreen() {
+        x = 50;
+        y = 50;
+
     }
 }
