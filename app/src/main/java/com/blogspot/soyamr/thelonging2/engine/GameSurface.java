@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.thelonging2;
+package com.blogspot.soyamr.thelonging2.engine;
 
 
 import android.graphics.Bitmap;
@@ -10,6 +10,12 @@ import android.media.SoundPool;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.blogspot.soyamr.thelonging2.R;
+import com.blogspot.soyamr.thelonging2.ViewParent;
+import com.blogspot.soyamr.thelonging2.helpers.Utils;
+import com.blogspot.soyamr.thelonging2.house.Room;
+import com.blogspot.soyamr.thelonging2.house.RoomParent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,27 +45,25 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
         // Make Game Surface focusable so it can handle events.
         this.setFocusable(true);
         holder = getHolder();
-        // Sét callback.
+        // Set callback.
         this.getHolder().addCallback(this);
 
         this.initSoundPool();
         this.initVovaCharacter();
-
+        //initialize rooms
         roomParent =
-                new RoomParent(getRoomBitmap(R.drawable.background2),
-                        getRoomBitmap(R.drawable.room), this);
-        currentRoom = roomParent.getLivingRoom();
+                new RoomParent(refToParent.getRoomBitmap(R.drawable.bed_room_night),
+                        refToParent.getRoomBitmap(R.drawable.bed_room_day),
+                        this);
+        currentRoom = roomParent.getBedRoom();
 
-    }
-
-    private Bitmap getRoomBitmap(int roomID) {
-        return BitmapFactory.decodeResource(this.getResources(), roomID);
     }
 
 
     private void initVovaCharacter() {
         Bitmap vova = BitmapFactory.decodeResource(this.getResources(), R.drawable.vova);
-        VovaCharacter chibi1 = new VovaCharacter(this, vova, 100, 50);
+        VovaCharacter chibi1 = new VovaCharacter(vova,
+                1130 * Utils.SCALING_FACTOR_X, 500 * Utils.SCALING_FACTOR_Y,this);
 
 //        Bitmap chibiBitmap2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.chibi2);
 //        ChibiCharacter chibi2 = new ChibiCharacter(this, chibiBitmap2, 300, 150);
@@ -123,6 +127,18 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
 
             int x = (int) event.getX();
             int y = (int) event.getY();
+
+            if (!currentRoom.isInsideFloor(x, y))
+                return true;
+            /*
+            transformed touch x = real touch x * (target pixels on x axis / real pixels on x axis)
+            transformed touch y = real touch y * (target pixels on y axis / real pixels on y axis)
+             */
+//            x = (int) ((double) x * ((double) targetPixelX / (double) realPixelX));
+//            y = (int) ((double) y * ((double) targetPixelY / (double) realPixelY));
+
+//            x = newX;
+//            y = newY;
 //            Log.e("amr","y "+y);
 //            if (y < 600)
 //                return false;
@@ -145,10 +161,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
 
 
             for (VovaCharacter vova : vovaList) {
-                //now the character foot will follow my touch instead of its head
-                int movingVectorX = x - vova.getCharacterWidth() - vova.getX();
-                int movingVectorY = y - vova.getCharacterHeight() - vova.getY();
-                vova.setMovingVector(movingVectorX, movingVectorY);
+                vova.setMovingVector(x, y);
             }
             return true;
         }
@@ -158,6 +171,11 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
     public void changeBackground(Room room) {
         currentRoom = room;
         refToParent.changeBackground(room);
+    }
+
+    @Override
+    public void hasReachedDoor(int x, int y) {
+        currentRoom.hasReachedDoor(x, y);
     }
 
     @Override
@@ -177,9 +195,6 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
         for (Explosion explosion : this.explosionList) {
             explosion.update();
         }
-        currentRoom.hasReachedDoor(
-                vovaList.get(0).x,
-                vovaList.get(0).y);
 
 
 //        Iterator<Explosion> iterator = this.explosionList.iterator();
@@ -229,11 +244,11 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
         pause();
     }
 
-    void pause() {
+    public void pause() {
         soundPool.autoPause();
         this.gameThread.setRunning(false);
         while (true) {
-            // Parent thread must wait until the end of GameThread.
+            // Papubrent thread must wait until the end of GameThread.
             try {
                 this.gameThread.join();
                 return;
@@ -245,7 +260,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
 
     SurfaceHolder holder;
 
-    void resume() {
+    public void resume() {
         soundPool.autoResume();
         this.gameThread = new GameThread(this, holder);
         this.gameThread.setRunning(true);

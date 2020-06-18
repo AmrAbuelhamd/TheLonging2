@@ -1,7 +1,10 @@
-package com.blogspot.soyamr.thelonging2;
+package com.blogspot.soyamr.thelonging2.engine;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+
+import com.blogspot.soyamr.thelonging2.engine.GameObject;
+import com.blogspot.soyamr.thelonging2.engine.GameSurface;
 
 
 public class Explosion extends GameObject {

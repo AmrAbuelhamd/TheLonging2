@@ -1,6 +1,8 @@
-package com.blogspot.soyamr.thelonging2;
+package com.blogspot.soyamr.thelonging2.house;
 
 import android.graphics.Bitmap;
+
+import com.blogspot.soyamr.thelonging2.engine.Controller;
 
 public class RoomParent {
     private LivingRoom livingRoom;

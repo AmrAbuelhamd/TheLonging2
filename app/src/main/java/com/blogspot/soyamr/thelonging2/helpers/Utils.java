@@ -1,0 +1,56 @@
+package com.blogspot.soyamr.thelonging2.helpers;
+
+
+import android.util.Log;
+
+public class Utils {
+    private static final int TARGET_PIXELS_X = 2260;
+    private static final int TARGET_PIXELS_Y = 1080;
+
+    public static int screenHeight;
+    public static int screenWidth;
+
+    public static final int TOP_TO_BOTTOM = 0;
+    public static final int RIGHT_TO_LEFT = 1;
+    public static final int LEFT_TO_RIGHT = 2;
+    public static final int BOTTOM_TO_TOP = 3;
+
+
+
+    public static int INITIAL_RIGHT_POSITION=2000;
+    public static int INITIAL_LEFT_POSITION=186;
+
+
+
+    public static int characterWidth = 194;
+    public static int characterHeight = 420;
+
+    public static int SCALING_FACTOR_X;
+    public static int SCALING_FACTOR_Y;
+
+    public static int FLOOR_Y_END=840;
+
+
+    public static void setXScalingFactor(int screenHeight, int screenWidth) {
+        Utils.screenHeight = screenHeight;
+        Utils.screenWidth = screenWidth;
+
+        //target pixels on x axis / real pixels on x axis
+        SCALING_FACTOR_X = TARGET_PIXELS_X / screenWidth;
+        SCALING_FACTOR_Y = TARGET_PIXELS_Y / screenHeight;
+
+        //adapt initial character sizes to the screen
+        characterWidth /= SCALING_FACTOR_X;
+        characterHeight /= SCALING_FACTOR_Y;
+
+        //adapt initial character positions on the screen
+        INITIAL_LEFT_POSITION/=SCALING_FACTOR_X;
+        INITIAL_RIGHT_POSITION/=SCALING_FACTOR_X;
+
+        //adapt FLOOR positions on the screen
+        FLOOR_Y_END/=SCALING_FACTOR_Y;
+
+
+    }
+
+}
