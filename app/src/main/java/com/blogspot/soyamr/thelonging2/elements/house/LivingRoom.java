@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.thelonging2.house;
+package com.blogspot.soyamr.thelonging2.elements.house;
 
 import android.graphics.Bitmap;
 
@@ -60,5 +60,10 @@ public class LivingRoom extends Room{
             controller.changeBackground(roomParent.getBedRoom());
             controller.moveToTheLeft();
         }
+    }
+
+    @Override
+    public boolean isSteppingOnRoomObject(int x, int y) {
+        return false;
     }
 }

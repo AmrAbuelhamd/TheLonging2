@@ -16,41 +16,46 @@ public class Utils {
     public static final int BOTTOM_TO_TOP = 3;
 
 
-
-    public static int INITIAL_RIGHT_POSITION=2000;
-    public static int INITIAL_LEFT_POSITION=186;
-
+    public static int INITIAL_RIGHT_POSITION = 2000;
+    public static int INITIAL_LEFT_POSITION = 186;
 
 
     public static int characterWidth = 194;
     public static int characterHeight = 420;
 
-    public static int SCALING_FACTOR_X;
-    public static int SCALING_FACTOR_Y;
+    public static double SCALING_FACTOR_X;
+    public static double SCALING_FACTOR_Y;
 
-    public static int FLOOR_Y_END=840;
+    public static int FLOOR_Y_END = 840;
 
 
     public static void setXScalingFactor(int screenHeight, int screenWidth) {
-        Utils.screenHeight = screenHeight;
-        Utils.screenWidth = screenWidth;
+
+        Utils.screenHeight = 1080;
+        Utils.screenWidth = 2260;
 
         //target pixels on x axis / real pixels on x axis
-        SCALING_FACTOR_X = TARGET_PIXELS_X / screenWidth;
-        SCALING_FACTOR_Y = TARGET_PIXELS_Y / screenHeight;
+        SCALING_FACTOR_X = TARGET_PIXELS_X / (double) screenWidth;
+        SCALING_FACTOR_Y = TARGET_PIXELS_Y / (double) screenHeight;
+
+        Utils.screenHeight /= SCALING_FACTOR_Y;
+        Utils.screenWidth /= SCALING_FACTOR_X;
+
 
         //adapt initial character sizes to the screen
         characterWidth /= SCALING_FACTOR_X;
         characterHeight /= SCALING_FACTOR_Y;
 
         //adapt initial character positions on the screen
-        INITIAL_LEFT_POSITION/=SCALING_FACTOR_X;
-        INITIAL_RIGHT_POSITION/=SCALING_FACTOR_X;
+        INITIAL_LEFT_POSITION /= SCALING_FACTOR_X;
+        INITIAL_RIGHT_POSITION /= SCALING_FACTOR_X;
 
         //adapt FLOOR positions on the screen
-        FLOOR_Y_END/=SCALING_FACTOR_Y;
+        FLOOR_Y_END /= SCALING_FACTOR_Y;
+    }
 
-
+    public static int power2(int a){
+        return a*a;
     }
 
 }

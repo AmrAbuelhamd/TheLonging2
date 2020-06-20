@@ -2,7 +2,7 @@ package com.blogspot.soyamr.thelonging2
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.blogspot.soyamr.thelonging2.house.Room
+import com.blogspot.soyamr.thelonging2.elements.house.Room
 
 interface ViewParent {
     fun changeBackground(room: Room)

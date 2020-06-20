@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.thelonging2.engine;
+package com.blogspot.soyamr.thelonging2.elements.character;
 
 import android.graphics.Bitmap;
 
@@ -59,9 +59,4 @@ public class GameObject {
         return this.y;
     }
 
-
-    public void moveToRight() {
-        x = 1800;
-        y = 780;
-    }
 }

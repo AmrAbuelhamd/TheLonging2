@@ -12,7 +12,7 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.soyamr.thelonging2.engine.GameSurface
 import com.blogspot.soyamr.thelonging2.helpers.Utils
-import com.blogspot.soyamr.thelonging2.house.Room
+import com.blogspot.soyamr.thelonging2.elements.house.Room
 
 
 class MainActivity : AppCompatActivity(),ViewParent {

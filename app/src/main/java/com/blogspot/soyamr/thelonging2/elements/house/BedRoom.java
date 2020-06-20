@@ -1,9 +1,10 @@
-package com.blogspot.soyamr.thelonging2.house;
+package com.blogspot.soyamr.thelonging2.elements.house;
 
 import android.graphics.Bitmap;
 
 import com.blogspot.soyamr.thelonging2.engine.Controller;
 import com.blogspot.soyamr.thelonging2.helpers.Point;
+import com.blogspot.soyamr.thelonging2.helpers.RayCastingAlgorithm;
 
 class BedRoom extends Room {
 
@@ -41,6 +42,13 @@ class BedRoom extends Room {
             new Point(0, 1080, true),
             new Point(2260, 1080, true),
     };
+    static Point[] bigChair = {
+            new Point(1894, 600, true),
+            new Point(1750, 858, true),
+            new Point(1867, 923, true),
+            new Point(2015, 882, true),
+            new Point(2015, 600, true)
+    };
 
     private RoomParent roomParent;
     private Controller controller;
@@ -64,5 +72,10 @@ class BedRoom extends Room {
 //            controller.changeBackground(roomParent.getLivingRoom());
 //            controller.moveToTheLeft();
         }
+    }
+
+    @Override
+    public boolean isSteppingOnRoomObject(int x, int y) {
+        return (RayCastingAlgorithm.isInside(bigChair, new Point(x, y)));
     }
 }

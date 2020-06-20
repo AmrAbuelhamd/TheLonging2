@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.thelonging2.house;
+package com.blogspot.soyamr.thelonging2.elements.house;
 
 import android.graphics.Bitmap;
 

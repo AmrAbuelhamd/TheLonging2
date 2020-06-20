@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.thelonging2.house;
+package com.blogspot.soyamr.thelonging2.elements.house;
 
 import android.graphics.Bitmap;
 
@@ -53,4 +53,6 @@ abstract public class Room {
     //as if abstract
     public void hasReachedDoor(int x, int y) {
     }
+
+    public abstract boolean isSteppingOnRoomObject(int x, int y);
 }

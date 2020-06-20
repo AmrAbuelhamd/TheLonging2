@@ -13,9 +13,11 @@ import android.view.SurfaceView;
 
 import com.blogspot.soyamr.thelonging2.R;
 import com.blogspot.soyamr.thelonging2.ViewParent;
+import com.blogspot.soyamr.thelonging2.elements.character.Explosion;
+import com.blogspot.soyamr.thelonging2.elements.character.VovaCharacter;
 import com.blogspot.soyamr.thelonging2.helpers.Utils;
-import com.blogspot.soyamr.thelonging2.house.Room;
-import com.blogspot.soyamr.thelonging2.house.RoomParent;
+import com.blogspot.soyamr.thelonging2.elements.house.Room;
+import com.blogspot.soyamr.thelonging2.elements.house.RoomParent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +65,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
     private void initVovaCharacter() {
         Bitmap vova = BitmapFactory.decodeResource(this.getResources(), R.drawable.vova);
         VovaCharacter chibi1 = new VovaCharacter(vova,
-                1130 * Utils.SCALING_FACTOR_X, 500 * Utils.SCALING_FACTOR_Y,this);
+                (int)(1130 / Utils.SCALING_FACTOR_X), (int)(500 / Utils.SCALING_FACTOR_Y),this);
 
 //        Bitmap chibiBitmap2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.chibi2);
 //        ChibiCharacter chibi2 = new ChibiCharacter(this, chibiBitmap2, 300, 150);
@@ -186,6 +188,11 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
     @Override
     public void moveToTheLeft() {
         vovaList.get(0).moveToTheLeftOfScreen();
+    }
+
+    @Override
+    public boolean steppingOnRoomObject(int x, int y) {
+        return currentRoom.isSteppingOnRoomObject(x,y);
     }
 
     public void update() {
