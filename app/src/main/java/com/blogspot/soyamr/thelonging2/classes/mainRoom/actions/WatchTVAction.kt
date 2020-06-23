@@ -5,7 +5,8 @@ import com.blogspot.soyamr.thelonging2.classes.engine.Action
 import com.blogspot.soyamr.thelonging2.classes.engine.BrainAlertInterface
 import com.blogspot.soyamr.thelonging2.classes.engine.MicroAction
 import com.blogspot.soyamr.thelonging2.classes.character.Character
-import com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.*
+import com.blogspot.soyamr.thelonging2.classes.mainRoom.commonMicroActions.LieOnBed
+import com.blogspot.soyamr.thelonging2.classes.mainRoom.components.television.microActions.*
 
 class WatchTVAction (character: Character, environment: Environment) : Action (character, environment), BrainAlertInterface{
     init{
@@ -24,7 +25,11 @@ class WatchTVAction (character: Character, environment: Environment) : Action (c
     override fun onAlert() {
         when (status) {
             0 -> {
-                curMicroAction = LieOnBed(character, environment)
+                curMicroAction =
+                    LieOnBed(
+                        character,
+                        environment
+                    )
                 character.brain.alert.addAlert(environment.current_time + 5 * 1000L, this)
             }
             1 -> {
