@@ -5,40 +5,36 @@ import com.blogspot.soyamr.thelonging2.classes.character.Character
 import com.blogspot.soyamr.thelonging2.classes.engine.Action
 import com.blogspot.soyamr.thelonging2.classes.engine.BrainAlertInterface
 import com.blogspot.soyamr.thelonging2.classes.engine.MicroAction
-import com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.bookShelf.PutBook
-import com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.bookShelf.ReadingBook
-import com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.bookShelf.TakeBook
+import com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.GetUp
+import com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.LieOnBed
+import com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.bed.Sleeping
 
-class ReadBook (character: Character, environment: Environment) : Action (character, environment), BrainAlertInterface {
-    init {
-        onAlert()
-    }
-
+class Sleep (character: Character, environment: Environment) : Action(character, environment),
+    BrainAlertInterface {
     override fun onPause(): Array<MicroAction> {
         return arrayOf()
     }
 
-    override fun onResume() {
-    }
+    override fun onResume() {}
 
     override fun getCurrentMicroAction(): MicroAction? {
         return curMicroAction
     }
-    //TODO добавить зависимость увеличения параметров от времени чтения
+
     override fun onAlert() {
         when(status){
             0 -> {
-                curMicroAction = TakeBook(character, environment)
-                character.brain.alert.addAlert(environment.current_time + 10 * 1000L, this)
+                curMicroAction = LieOnBed(character, environment)
+                character.brain.alert.addAlert(environment.current_time + 5 * 1000L, this)
             }
             1 -> {
                 (curMicroAction as MicroAction).endOfMicroAction()
-                curMicroAction = ReadingBook(character, environment)
-                character.brain.alert.addAlert(environment.current_time + 30 * 60 * 1000L, this)
+                curMicroAction = Sleeping(character, environment)
+                character.brain.alert.addAlert(environment.current_time + 8 * 60 * 60 * 1000L, this)
             }
             2 -> {
                 (curMicroAction as MicroAction).endOfMicroAction()
-                curMicroAction = PutBook(character, environment)
+                curMicroAction = GetUp(character, environment)
                 character.brain.alert.addAlert(environment.current_time + 5 * 1000L, this)
             }
             3 -> {
@@ -47,6 +43,5 @@ class ReadBook (character: Character, environment: Environment) : Action (charac
             }
         }
         status++
-
     }
 }

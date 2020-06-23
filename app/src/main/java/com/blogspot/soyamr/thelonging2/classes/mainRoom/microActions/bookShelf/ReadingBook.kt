@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.thelonging2.classes.mainRoom.components.bookshelf.microActions
+package com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.bookShelf
 
 import com.blogspot.soyamr.thelonging2.classes.Environment
 import com.blogspot.soyamr.thelonging2.classes.character.Character

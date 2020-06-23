@@ -5,8 +5,8 @@ import com.blogspot.soyamr.thelonging2.classes.engine.Action
 import com.blogspot.soyamr.thelonging2.classes.engine.BrainAlertInterface
 import com.blogspot.soyamr.thelonging2.classes.engine.MicroAction
 import com.blogspot.soyamr.thelonging2.classes.character.Character
-import com.blogspot.soyamr.thelonging2.classes.mainRoom.commonMicroActions.LieOnBed
-import com.blogspot.soyamr.thelonging2.classes.mainRoom.components.television.microActions.*
+import com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.LieOnBed
+import com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.television.*
 
 class WatchTVAction (character: Character, environment: Environment) : Action (character, environment), BrainAlertInterface{
     init{
