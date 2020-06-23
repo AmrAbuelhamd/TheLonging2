@@ -1,4 +1,4 @@
-package com.blogspot.soyamr.thelonging2.classes.work
+package com.blogspot.soyamr.thelonging2.classes.mainRoom.components.laptop.work
 
 import java.util.Random
 

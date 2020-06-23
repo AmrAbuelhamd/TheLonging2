@@ -13,10 +13,15 @@ interface CharacterParamsInterface{
 
 open class CharacterParams :
     CharacterParamsInterface {
-    var hungry : Int = 0 // голод, восполняется едой
-    var loneliness : Int = 0 // одиночество, восп общением
-    var tiredness : Int = 0 // усталость - отдыхом
-    var ambiguity : Int = 0 // неясность, неведение - просмотром и чтением новостей, общением
+    private var hungry : Int = 50 // голод, восполняется едой
+    private var loneliness : Int = 50 // одиночество, восп общением
+    private var tiredness : Int = 50 // усталость - отдыхом
+    private var ambiguity : Int = 50 // неясность, неведение - просмотром и чтением новостей, общением
+
+    fun getHungry() : Int { return hungry }
+    fun getLoneliness() : Int { return loneliness }
+    fun getTiredness() : Int { return tiredness }
+    fun getAmbiguity() : Int { return ambiguity }
 
     override fun addHungry(value: Int){
         hungry += value

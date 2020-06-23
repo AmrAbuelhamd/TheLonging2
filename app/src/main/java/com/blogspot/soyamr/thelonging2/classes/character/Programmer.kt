@@ -6,8 +6,8 @@ interface CharacterProgrammerInterface{
 }
 
 open class CharacterProgrammer : CharacterProgrammerInterface {
-    var programmerStatus : Double = 1.0 // статус на фрилансе
-    var inProcess : Boolean = false
+    private var programmerStatus : Double = 1.0 // статус на фрилансе
+    private var inProcess : Boolean = false
 
     override fun raiseProgrammerStatus(difficulty: Int, duration: Int){
         programmerStatus += difficulty * 0.1 + duration * 0.01
