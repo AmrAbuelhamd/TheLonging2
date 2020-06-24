@@ -18,6 +18,7 @@ import com.blogspot.soyamr.thelonging2.engine.GameSurface
 import com.blogspot.soyamr.thelonging2.helpers.Utils
 import com.blogspot.soyamr.thelonging2.helpers.Utils.appluScallingX
 import com.blogspot.soyamr.thelonging2.helpers.Utils.appluScallingY
+import com.example.kaushiknsanji.bookslibrary.BookSearchActivity
 
 
 class MainActivity : AppCompatActivity(),ViewParent {
@@ -71,7 +72,9 @@ class MainActivity : AppCompatActivity(),ViewParent {
     }
 
     private fun openLibraryActivity() {
-        val intent = Intent(this, LibraryShelf::class.java)
+//        val intent = Intent(this, LibraryShelf::class.java)
+//        startActivity(intent)
+        val intent = Intent(this, BookSearchActivity::class.java)
         startActivity(intent)
     }
 
