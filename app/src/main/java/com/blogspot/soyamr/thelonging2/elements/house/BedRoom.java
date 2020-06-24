@@ -50,6 +50,15 @@ class BedRoom extends Room {
             new Point(2015, 600, true)
     };
 
+    static Point[] bookShelf = {
+            new Point(1553, 176, true),
+            new Point(1851, 176, true),
+            new Point(1851, 630, true),
+            new Point(1786, 722, true),
+            new Point(1786, 802, true),
+            new Point(1553, 802, true)
+    };
+
     private RoomParent roomParent;
     private Controller controller;
 
@@ -77,5 +86,13 @@ class BedRoom extends Room {
     @Override
     public boolean isSteppingOnRoomObject(int x, int y) {
         return (RayCastingAlgorithm.isInside(bigChair, new Point(x, y)));
+    }
+
+    @Override
+    public int whereAmI(int x, int y) {
+        if (RayCastingAlgorithm.isInside(bookShelf, new Point(x, y)))
+            return Room.LIBRARY;
+        else
+            return -1;
     }
 }

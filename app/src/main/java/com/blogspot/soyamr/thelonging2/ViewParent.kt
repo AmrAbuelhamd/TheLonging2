@@ -8,4 +8,6 @@ interface ViewParent {
     fun changeBackground(room: Room)
     fun getContext(): Context
     fun getRoomBitmap(roomID: Int): Bitmap?
+    fun addButtonBookShelf()
+    fun removeButtonOpenShelf()
 }

@@ -66,4 +66,9 @@ public class LivingRoom extends Room{
     public boolean isSteppingOnRoomObject(int x, int y) {
         return false;
     }
+
+    @Override
+    public int whereAmI(int x, int y) {
+        return 1;
+    }
 }

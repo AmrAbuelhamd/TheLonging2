@@ -7,6 +7,7 @@ public interface Controller {
     void hasReachedDoor(int x, int y);
     void moveToTheRight();
     void moveToTheLeft();
-
     boolean steppingOnRoomObject(int x, int y);
+    void addLibraryOpenButton();
+    void whereAmI(int x, int y);
 }

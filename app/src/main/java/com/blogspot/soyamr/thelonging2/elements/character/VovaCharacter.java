@@ -2,7 +2,7 @@ package com.blogspot.soyamr.thelonging2.elements.character;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-
+import android.util.Log;
 
 import com.blogspot.soyamr.thelonging2.engine.Controller;
 import com.blogspot.soyamr.thelonging2.helpers.Utils;
@@ -27,13 +27,14 @@ public class VovaCharacter extends GameObject {
     private Bitmap[] bottomToTops;
 
     // Velocity of game character (pixel/millisecond)
-   private static final float VELOCITY = 0.7f;
-    
+    private static final float VELOCITY = 0.7f;
+
 
     private long lastDrawNanoTime = -1;
 
     Controller controller;
     private CharacterDirection characterDirection;
+
     public VovaCharacter(Bitmap image, int x, int y, Controller controller) {
         super(image, 4, 3, x, y);
 
@@ -77,10 +78,12 @@ public class VovaCharacter extends GameObject {
     public void update() {
 
         if (characterDirection.checkObstacles()) {
-            return;   
+            return;
         }
-        if (++ctr % refreshRate == 0)
-            this.colUsing++;
+        if (++ctr % refreshRate == 0) {
+            this.colUsing++;//i wonder what will happen when ctr reaches 2147483647
+            Log.e("ctr= ", " " + ctr);
+        }
 
         if (colUsing >= this.colCount) {
             this.colUsing = 0;
@@ -110,21 +113,6 @@ public class VovaCharacter extends GameObject {
 
         rowUsing = characterDirection.getMovingDirection();
 
-//        // rowUsing
-//        switch (getMovingDirection()) {
-//            case TOP_TO_BOTTOM:
-//                this.rowUsing = TOP_TO_BOTTOM;
-//                break;
-//            case BOTTOM_TO_TOP:
-//                this.rowUsing = BOTTOM_TO_TOP;
-//                break;
-//            case LEFT_TO_RIGHT:
-//                this.rowUsing = LEFT_TO_RIGHT;
-//                break;
-//            case RIGHT_TO_LEFT:
-//                this.rowUsing = RIGHT_TO_LEFT;
-//                break;
-//        }
 
     }
 

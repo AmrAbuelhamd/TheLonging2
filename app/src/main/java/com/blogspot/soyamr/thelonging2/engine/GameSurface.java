@@ -15,9 +15,9 @@ import com.blogspot.soyamr.thelonging2.R;
 import com.blogspot.soyamr.thelonging2.ViewParent;
 import com.blogspot.soyamr.thelonging2.elements.character.Explosion;
 import com.blogspot.soyamr.thelonging2.elements.character.VovaCharacter;
-import com.blogspot.soyamr.thelonging2.helpers.Utils;
 import com.blogspot.soyamr.thelonging2.elements.house.Room;
 import com.blogspot.soyamr.thelonging2.elements.house.RoomParent;
+import com.blogspot.soyamr.thelonging2.helpers.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +40,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
     private SoundPool soundPool;
     private ViewParent refToParent;
 
+    private boolean buttonIsShown = false;
     public GameSurface(ViewParent object) {
         super(object.getContext());
         refToParent = object;
@@ -58,14 +59,13 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
                         refToParent.getRoomBitmap(R.drawable.bed_room_day),
                         this);
         currentRoom = roomParent.getBedRoom();
-
     }
 
 
     private void initVovaCharacter() {
         Bitmap vova = BitmapFactory.decodeResource(this.getResources(), R.drawable.vova);
         VovaCharacter chibi1 = new VovaCharacter(vova,
-                (int)(1130 / Utils.SCALING_FACTOR_X), (int)(500 / Utils.SCALING_FACTOR_Y),this);
+                Utils.appluScallingX(1130), Utils.appluScallingY(500), this);
 
 //        Bitmap chibiBitmap2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.chibi2);
 //        ChibiCharacter chibi2 = new ChibiCharacter(this, chibiBitmap2, 300, 150);
@@ -129,7 +129,6 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
 
             int x = (int) event.getX();
             int y = (int) event.getY();
-
             if (!currentRoom.isInsideFloor(x, y))
                 return true;
             /*
@@ -193,6 +192,26 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
     @Override
     public boolean steppingOnRoomObject(int x, int y) {
         return currentRoom.isSteppingOnRoomObject(x,y);
+    }
+
+    @Override
+    public void addLibraryOpenButton() {
+        refToParent.addButtonBookShelf();
+    }
+
+    @Override
+    public void whereAmI(int x, int y) {
+        if (currentRoom.whereAmI(x, y) == Room.LIBRARY) {
+            if (!buttonIsShown) {
+                refToParent.addButtonBookShelf();
+                buttonIsShown = true;
+            }
+        } else {
+            if (buttonIsShown){
+                refToParent.removeButtonOpenShelf();
+                buttonIsShown = false;
+            }
+        }
     }
 
     public void update() {

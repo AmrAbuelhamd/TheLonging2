@@ -2,6 +2,8 @@ package com.blogspot.soyamr.thelonging2.elements.character;
 
 import android.graphics.Bitmap;
 
+import com.blogspot.soyamr.thelonging2.helpers.Utils;
+
 public class GameObject {
     protected Bitmap image;
 
@@ -48,7 +50,7 @@ public class GameObject {
         // createBitmap(bitmap, x, y, width, height).
         Bitmap b = Bitmap.createBitmap(image, col * characterWidth, row * characterHeight,
                 characterWidth, characterHeight);
-        return Bitmap.createScaledBitmap(b, 97 * 2, 210 * 2, false);
+        return Bitmap.createScaledBitmap(b, Utils.characterWidth, Utils.characterHeight, false);
     }
 
     public int getX() {

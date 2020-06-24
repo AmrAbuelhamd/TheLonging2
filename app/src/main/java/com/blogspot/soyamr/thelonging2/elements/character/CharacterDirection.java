@@ -55,6 +55,8 @@ class CharacterDirection {
         if (hasReachedTargetPoint()) {
             stopCharacter();
             character.controller.hasReachedDoor(character.x, character.y);
+            character.controller.whereAmI(character.x+Utils.characterWidth, character.y);
+
             return true;
         }
 

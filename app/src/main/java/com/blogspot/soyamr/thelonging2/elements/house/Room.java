@@ -7,6 +7,8 @@ import com.blogspot.soyamr.thelonging2.helpers.RayCastingAlgorithm;
 import com.blogspot.soyamr.thelonging2.helpers.Utils;
 
 abstract public class Room {
+    public static final int LIBRARY = 0;
+
     private Point[] rightDoor;
     private Point[] leftDoor;
     private Point[] floor;
@@ -50,9 +52,9 @@ abstract public class Room {
         return RayCastingAlgorithm.isInside(leftDoor, new Point(x, y));
     }
 
-    //as if abstract
-    public void hasReachedDoor(int x, int y) {
-    }
+    public abstract void hasReachedDoor(int x, int y);
 
     public abstract boolean isSteppingOnRoomObject(int x, int y);
+
+    public abstract int whereAmI(int x, int y);
 }
