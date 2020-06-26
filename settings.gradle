@@ -1,2 +1,2 @@
 rootProject.name='The Longing 2'
-include ':app'
+include ':app', ':book_shelf_library'
