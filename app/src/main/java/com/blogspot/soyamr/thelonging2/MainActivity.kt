@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(),ViewParent {
     }
 
     fun init2(){
-        
+        println("hello world")
     }
 
     private fun initalizeButtons() {
