@@ -23,6 +23,23 @@ allprojects {
         
     }
 }
+ext {
+    //Sdk versions
+    compileSdkVersion = 29
+    targetSdkVersion = 29
+    minSdkVersion = 24
+
+    //Support Library
+    supportLibraryVersion = '28.0.0'
+
+    //ConstraintLayout Library
+    constraintLayoutVersion = '1.1.3'
+
+    //Test dependencies
+    jUnitVersion = '4.13'
+    testRunnerVersion = '1.0.2'
+    espressoCoreVersion = '3.0.2'
+}
 
 task clean(type: Delete) {
     delete rootProject.buildDir
