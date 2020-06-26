@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity(),ViewParent {
     lateinit var rootLayout: RelativeLayout
     lateinit var buttonOpenLibirary: Button
     lateinit var parameterOpenLibirary: RelativeLayout.LayoutParams
+    lateinit var environment: Environment
+    lateinit var character: Character
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,16 +60,13 @@ class MainActivity : AppCompatActivity(),ViewParent {
         setContentView(rootLayout)
 
         initalizeButtons()
+        initClasses()
     }
 
     private fun initClasses()
     {
-        val environment : Environment = Environment()
-        val character : Character = Character(environment)
-    }
-
-    fun init2(){
-        println("hello world")
+        environment = Environment()
+        character = Character(environment)
     }
 
     private fun initalizeButtons() {
