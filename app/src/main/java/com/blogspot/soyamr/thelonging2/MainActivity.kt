@@ -6,19 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.PixelFormat
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import androidx.appcompat.app.AppCompatActivity
-import com.blogspot.soyamr.thelonging2.bookshelf.LibraryShelf
-import com.blogspot.soyamr.thelonging2.elements.house.Room
-import com.blogspot.soyamr.thelonging2.engine.GameSurface
-import com.blogspot.soyamr.thelonging2.helpers.Utils
-import com.blogspot.soyamr.thelonging2.helpers.Utils.appluScallingX
-import com.blogspot.soyamr.thelonging2.helpers.Utils.appluScallingY
-import com.example.kaushiknsanji.bookslibrary.BookSearchActivity
 
 
 class MainActivity : AppCompatActivity(),ViewParent {
