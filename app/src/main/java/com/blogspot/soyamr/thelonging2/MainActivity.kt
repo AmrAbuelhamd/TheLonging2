@@ -66,6 +66,10 @@ class MainActivity : AppCompatActivity(),ViewParent {
         val character : Character = Character(environment)
     }
 
+    fun init2(){
+        
+    }
+
     private fun initalizeButtons() {
         buttonOpenLibirary = Button(this)
         buttonOpenLibirary.text = "open the library"
