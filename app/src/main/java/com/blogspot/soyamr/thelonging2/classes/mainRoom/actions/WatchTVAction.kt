@@ -25,11 +25,7 @@ class WatchTVAction (character: Character, environment: Environment) : Action (c
     override fun onAlert() {
         when (status) {
             0 -> {
-                curMicroAction =
-                    LieOnBed(
-                        character,
-                        environment
-                    )
+                curMicroAction = LieOnBed(character, environment)
                 character.brain.alert.addAlert(environment.current_time + 5 * 1000L, this)
             }
             1 -> {

@@ -15,4 +15,15 @@ class Brain(val character: Character, private val environment: Environment) {
     fun cancelCurrentAction(){
         currentAction = DoNothing(character, environment)
     }
+
+    fun getCurrentAction() : Action {
+        return currentAction
+    }
+
+    private fun checkActiveAction() : Boolean{
+        if(currentAction.getCurrentMicroAction() != null)
+            return true
+        return false
+    }
+
 }
