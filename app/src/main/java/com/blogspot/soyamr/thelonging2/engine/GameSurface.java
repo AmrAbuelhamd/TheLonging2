@@ -13,34 +13,30 @@ import android.view.SurfaceView;
 
 import com.blogspot.soyamr.thelonging2.R;
 import com.blogspot.soyamr.thelonging2.ViewParent;
-import com.blogspot.soyamr.thelonging2.elements.character.Explosion;
 import com.blogspot.soyamr.thelonging2.elements.character.VovaCharacter;
+import com.blogspot.soyamr.thelonging2.elements.house.Balcony;
 import com.blogspot.soyamr.thelonging2.elements.house.Room;
 import com.blogspot.soyamr.thelonging2.elements.house.RoomParent;
 import com.blogspot.soyamr.thelonging2.helpers.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, Controller {
 
     private GameThread gameThread;
 
-    private final List<VovaCharacter> vovaList = new ArrayList<>();
-    private final List<Explosion> explosionList = new ArrayList<>();
+    private VovaCharacter vova;
 
     Room currentRoom;
     private RoomParent roomParent;
 
     private static final int MAX_STREAMS = 100;
-    private int soundIdExplosion;
     private int soundIdBackground;
 
     private boolean soundPoolLoaded;
     private SoundPool soundPool;
     private ViewParent refToParent;
 
-    private boolean buttonIsShown = false;
+    public boolean buttonIsShown = false;
+
     public GameSurface(ViewParent object) {
         super(object.getContext());
         refToParent = object;
@@ -54,24 +50,20 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
         this.initSoundPool();
         this.initVovaCharacter();
         //initialize rooms
-        roomParent =
-                new RoomParent(refToParent.getRoomBitmap(R.drawable.bed_room_night),
-                        refToParent.getRoomBitmap(R.drawable.bed_room_day),
-                        this);
+        roomParent = new RoomParent(
+                refToParent.getRoomBitmap(R.drawable.karidor),
+                refToParent.getRoomBitmap(R.drawable.bed_room_day),
+                refToParent.getRoomBitmap(R.drawable.kitchen),
+                refToParent.getRoomBitmap(R.drawable.balkon),
+                this);
         currentRoom = roomParent.getBedRoom();
     }
 
 
     private void initVovaCharacter() {
-        Bitmap vova = BitmapFactory.decodeResource(this.getResources(), R.drawable.vova);
-        VovaCharacter chibi1 = new VovaCharacter(vova,
+        Bitmap vovaBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.vova);
+        vova = new VovaCharacter(vovaBitmap,
                 Utils.appluScallingX(1130), Utils.appluScallingY(500), this);
-
-//        Bitmap chibiBitmap2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.chibi2);
-//        ChibiCharacter chibi2 = new ChibiCharacter(this, chibiBitmap2, 300, 150);
-
-        this.vovaList.add(chibi1);
-//        this.chibiList.add(chibi2);
     }
 
     private void initSoundPool() {
@@ -88,31 +80,17 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
 
 
         // When SoundPool load complete.
-        this.soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                soundPoolLoaded = true;
+        this.soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
+            soundPoolLoaded = true;
 
-                // Playing background sound.
-                playSoundBackground();
-            }
+            // Playing background sound.
+            playSoundBackground();
         });
 
         // Load the sound background.mp3 into SoundPool
         this.soundIdBackground = this.soundPool.load(this.getContext(), R.raw.background, 1);
-
-        // Load the sound explosion.wav into SoundPool
-        this.soundIdExplosion = this.soundPool.load(this.getContext(), R.raw.explosion, 1);
     }
 
-    public void playSoundExplosion() {
-        if (this.soundPoolLoaded) {
-            float leftVolumn = 0.8f;
-            float rightVolumn = 0.8f;
-            // Play sound explosion.wav
-            int streamId = this.soundPool.play(this.soundIdExplosion, leftVolumn, rightVolumn, 1, 0, 1f);
-        }
-    }
 
     public void playSoundBackground() {
         if (this.soundPoolLoaded) {
@@ -135,35 +113,8 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
             transformed touch x = real touch x * (target pixels on x axis / real pixels on x axis)
             transformed touch y = real touch y * (target pixels on y axis / real pixels on y axis)
              */
-//            x = (int) ((double) x * ((double) targetPixelX / (double) realPixelX));
-//            y = (int) ((double) y * ((double) targetPixelY / (double) realPixelY));
+            vova.setMovingVector(x, y);
 
-//            x = newX;
-//            y = newY;
-//            Log.e("amr","y "+y);
-//            if (y < 600)
-//                return false;
-
-//            Iterator<VovaCharacter> iterator = this.vovaList.iterator();
-//            while (iterator.hasNext()) {
-//                VovaCharacter chibi = iterator.next();
-//                if (chibi.getX() < x && x < chibi.getX() + chibi.getCharacterWidth()
-//                        && chibi.getY() < y && y < chibi.getY() + chibi.getCharacterHeight()) {
-//                    // Remove the current element from the iterator and the list.
-//                    iterator.remove();
-//
-//                    // Create Explosion object.
-//                    Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.explosion);
-//                    Explosion explosion = new Explosion(this, bitmap, chibi.getX(), chibi.getY());
-//
-//                    this.explosionList.add(explosion);
-//                }
-//            }
-
-
-            for (VovaCharacter vova : vovaList) {
-                vova.setMovingVector(x, y);
-            }
             return true;
         }
         return false;
@@ -181,17 +132,17 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
 
     @Override
     public void moveToTheRight() {
-        vovaList.get(0).moveToTheRightOfScreen();
+        vova.moveToTheRightOfScreen();
     }
 
     @Override
     public void moveToTheLeft() {
-        vovaList.get(0).moveToTheLeftOfScreen();
+        vova.moveToTheLeftOfScreen();
     }
 
     @Override
     public boolean steppingOnRoomObject(int x, int y) {
-        return currentRoom.isSteppingOnRoomObject(x,y);
+        return currentRoom.isSteppingOnRoomObject(x, y);
     }
 
     @Override
@@ -204,51 +155,42 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
         if (currentRoom.whereAmI(x, y) == Room.LIBRARY) {
             if (!buttonIsShown) {
                 refToParent.addButtonBookShelf();
-                buttonIsShown = true;
             }
         } else {
-            if (buttonIsShown){
+            if (buttonIsShown) {
                 refToParent.removeButtonOpenShelf();
-                buttonIsShown = false;
             }
         }
     }
 
+    @Override
+    public boolean reachedFloorEnd(int y) {
+        return currentRoom.reachedFloorEnd(y);
+    }
+
+    @Override
+    public int getCurrentFloorY() {
+        return currentRoom.getFloorYend();
+    }
+
     public void update() {
-        for (VovaCharacter vova : vovaList) {
-            vova.update();
-        }
-        for (Explosion explosion : this.explosionList) {
-            explosion.update();
-        }
 
-
-//        Iterator<Explosion> iterator = this.explosionList.iterator();
-//        while (iterator.hasNext()) {
-//            Explosion explosion = iterator.next();
-//
-//            if (explosion.isFinish()) {
-//                // If explosion finish, Remove the current element from the iterator & list.
-//                iterator.remove();
-//                continue;
-//            }
-//        }
-
-
+        vova.update();
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        for (VovaCharacter vova : vovaList) {
-//            currentRoom.hasReachedDoor(vova);
-            canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-            vova.draw(canvas);
-        }
 
-        for (Explosion explosion : this.explosionList) {
-            explosion.draw(canvas);
+        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        if (currentRoom instanceof Balcony) {
+            if (!buttonIsShown) {
+                refToParent.addButtonGoBack();
+            }
+            return;
         }
+        vova.draw(canvas);
+        //if to draw something else it would go here
 
     }
 

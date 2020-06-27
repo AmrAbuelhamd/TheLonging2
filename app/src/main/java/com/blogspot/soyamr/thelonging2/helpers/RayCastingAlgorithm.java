@@ -93,6 +93,8 @@ public class RayCastingAlgorithm {
     // inside the polygon[] with n vertices
     public static boolean isInside(Point polygon[],Point p)
     {
+        if(polygon.length<3)
+            return false;
         // There must be at least 3 vertices in polygon[]
         int n = polygon.length;
 

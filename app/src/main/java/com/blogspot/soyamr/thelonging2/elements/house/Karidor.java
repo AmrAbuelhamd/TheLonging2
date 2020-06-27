@@ -2,10 +2,15 @@ package com.blogspot.soyamr.thelonging2.elements.house;
 
 import android.graphics.Bitmap;
 
+import com.blogspot.soyamr.thelonging2.elements.character.VovaCharacter;
 import com.blogspot.soyamr.thelonging2.engine.Controller;
 import com.blogspot.soyamr.thelonging2.helpers.Point;
+import com.blogspot.soyamr.thelonging2.helpers.RayCastingAlgorithm;
+import com.blogspot.soyamr.thelonging2.helpers.Utils;
 
-public class LivingRoom extends Room{
+import static com.blogspot.soyamr.thelonging2.helpers.Utils.BOTTOM_TO_TOP;
+
+public class Karidor extends Room {
 
     //left door
     static Point[] leftDoor = {
@@ -14,26 +19,27 @@ public class LivingRoom extends Room{
             new Point(82, 771, true),
             new Point(0, 844, true),
     };
-    //right door
-    static Point[] rightDoor = {
-            new Point(2260, 212, true),
-            new Point(2188, 247, true),
-            new Point(2188, 788, true),
-            new Point(2260, 855, true),
+
+
+    static Point[] kitchenDoor = {
+            new Point(340, 200, true),
+            new Point(620, 200, true),
+            new Point(662, 783, true),
+            new Point(345, 781, true),
     };
 
     //floor
     static Point[] floor = {
             new Point(2255, 861, true),
             new Point(2190, 805, true),
-            new Point(2020, 840, true),
+            new Point(2020, 745, true),
             new Point(2020, 885, true),
             new Point(1874, 931, true),
             new Point(1742, 861, true),
-            new Point(1771, 840, true),
-            new Point(1491, 840, true),
+            new Point(1771, 745, true),
+            new Point(1491, 745, true),
             new Point(1491, 825, true),
-            new Point(1334, 840, true),
+            new Point(1334, 745, true),
             new Point(1334, 802, true),
             new Point(137, 802, true),
             new Point(101, 753, true),
@@ -47,18 +53,20 @@ public class LivingRoom extends Room{
     private Controller controller;
     //another elements
     //elements that only belongs to LivingRoom
-    public LivingRoom(Bitmap roomBitmap, Controller controller, RoomParent roomParent) {
-        super(rightDoor, leftDoor, floor, roomBitmap);
+    public Karidor(Bitmap roomBitmap, Controller controller, RoomParent roomParent) {
+        super(null, leftDoor, floor, roomBitmap, Utils.appluScallingY(745));
         this.controller = controller;
         this.roomParent = roomParent;
     }
 
     public void hasReachedDoor(int x, int y) {
         if (hasReachedLeftDoor(x, y)) {
-
-        } else if (hasReachedRightDoor(x, y)) {
             controller.changeBackground(roomParent.getBedRoom());
-            controller.moveToTheLeft();
+            controller.moveToTheRight();
+        } else if (RayCastingAlgorithm.isInside(kitchenDoor, new Point(x, y))
+                && VovaCharacter.DIRECTION == BOTTOM_TO_TOP) {
+            controller.changeBackground(roomParent.getKitchen());
+            controller.moveToTheRight();
         }
     }
 
@@ -69,6 +77,11 @@ public class LivingRoom extends Room{
 
     @Override
     public int whereAmI(int x, int y) {
-        return 1;
+        return -1;
+    }
+
+    @Override
+    public Room getNextRoom() {
+        return null;
     }
 }

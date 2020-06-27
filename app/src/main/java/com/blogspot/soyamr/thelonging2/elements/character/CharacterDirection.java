@@ -3,7 +3,6 @@ package com.blogspot.soyamr.thelonging2.elements.character;
 import com.blogspot.soyamr.thelonging2.helpers.Utils;
 
 import static com.blogspot.soyamr.thelonging2.helpers.Utils.BOTTOM_TO_TOP;
-import static com.blogspot.soyamr.thelonging2.helpers.Utils.FLOOR_Y_END;
 import static com.blogspot.soyamr.thelonging2.helpers.Utils.LEFT_TO_RIGHT;
 import static com.blogspot.soyamr.thelonging2.helpers.Utils.RIGHT_TO_LEFT;
 import static com.blogspot.soyamr.thelonging2.helpers.Utils.TOP_TO_BOTTOM;
@@ -54,17 +53,18 @@ class CharacterDirection {
         //checking in  each frame 
         if (hasReachedTargetPoint()) {
             stopCharacter();
+            VovaCharacter.DIRECTION = character.rowUsing;
             character.controller.hasReachedDoor(character.x, character.y);
-            character.controller.whereAmI(character.x+Utils.characterWidth, character.y);
+            character.controller.whereAmI(character.x + Utils.characterWidth, character.y);
 
             return true;
         }
 
         //if hit the floor end change direction
-        if (character.y + Utils.characterHeight < FLOOR_Y_END) {
-            character.y = FLOOR_Y_END - Utils.characterHeight;
-            movingVectorY = -movingVectorY;
-//            return;
+        if (character.controller.reachedFloorEnd(character.y + Utils.characterHeight)) {
+            character.y = character.controller.getCurrentFloorY() - Utils.characterHeight;
+//            movingVectorY = -movingVectorY;
+            stopCharacter();
         }
 
         //avoid the chair
@@ -79,7 +79,7 @@ class CharacterDirection {
             case BOTTOM_TO_TOP:
                 if (character.controller
                         .steppingOnRoomObject(character.x + Utils.characterWidth / 2,
-                        character.y + Utils.characterHeight)) {
+                                character.y + Utils.characterHeight)) {
                     movingVectorX = -movingVectorX;
                     movingVectorY = -movingVectorY;
                 }
@@ -87,7 +87,7 @@ class CharacterDirection {
             case LEFT_TO_RIGHT: {//-->
                 if (character.controller
                         .steppingOnRoomObject(character.x + Utils.characterWidth,
-                        character.y + Utils.characterHeight))
+                                character.y + Utils.characterHeight))
                     movingVectorX = -movingVectorX;
 
                 break;
@@ -95,8 +95,10 @@ class CharacterDirection {
             case RIGHT_TO_LEFT: {//<--
                 if (character.controller
                         .steppingOnRoomObject(character.x,
-                        character.y + Utils.characterHeight))
-                    movingVectorX = -movingVectorX;
+                                character.y + Utils.characterHeight)) {
+                    character.x += 1;
+                    stopCharacter();
+                }
 
                 break;
             }

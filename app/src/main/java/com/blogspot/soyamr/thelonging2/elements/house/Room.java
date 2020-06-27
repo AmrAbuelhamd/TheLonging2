@@ -14,30 +14,24 @@ abstract public class Room {
     private Point[] floor;
     private Bitmap roomBitmap;
 
+    public int getFloorYend() {
+        return floorYend;
+    }
+
+    int floorYend;
+
     Room(Point[] rightDoor, Point[] leftDoor, Point[] floor,
-         Bitmap roomBitmap) {
+         Bitmap roomBitmap, int floorYend) {
 
         this.rightDoor = rightDoor;
         this.leftDoor = leftDoor;
         this.floor = floor;
         this.roomBitmap = roomBitmap;
-
+        this.floorYend = floorYend;
     }
 
     public boolean isInsideFloor(int x, int y) {
         return RayCastingAlgorithm.isInside(floor, new Point(x, y));
-    }
-
-    public Point[] getRightDoor() {
-        return rightDoor;
-    }
-
-    public Point[] getLeftDoor() {
-        return leftDoor;
-    }
-
-    public Point[] getFloor() {
-        return floor;
     }
 
     public Bitmap getRoomBitmap() {
@@ -57,4 +51,10 @@ abstract public class Room {
     public abstract boolean isSteppingOnRoomObject(int x, int y);
 
     public abstract int whereAmI(int x, int y);
+
+    public boolean reachedFloorEnd(int y) {
+        return y < floorYend;
+    }
+
+    public abstract Room getNextRoom();
 }

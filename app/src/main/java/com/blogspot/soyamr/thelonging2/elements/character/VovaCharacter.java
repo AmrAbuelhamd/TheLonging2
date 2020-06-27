@@ -15,9 +15,9 @@ import static com.blogspot.soyamr.thelonging2.helpers.Utils.TOP_TO_BOTTOM;
 
 public class VovaCharacter extends GameObject {
 
-
+    public static int DIRECTION = 0;
     // Row index of Image are being used.
-    private int rowUsing = LEFT_TO_RIGHT;
+    int rowUsing = LEFT_TO_RIGHT;
 
     private int colUsing;
 
@@ -82,7 +82,6 @@ public class VovaCharacter extends GameObject {
         }
         if (++ctr % refreshRate == 0) {
             this.colUsing++;//i wonder what will happen when ctr reaches 2147483647
-            Log.e("ctr= ", " " + ctr);
         }
 
         if (colUsing >= this.colCount) {
@@ -112,7 +111,6 @@ public class VovaCharacter extends GameObject {
         characterDirection.reachedWall();
 
         rowUsing = characterDirection.getMovingDirection();
-
 
     }
 

@@ -10,4 +10,6 @@ interface ViewParent {
     fun getRoomBitmap(roomID: Int): Bitmap?
     fun addButtonBookShelf()
     fun removeButtonOpenShelf()
+    fun addButtonGoBack()
+    fun removeButtonGoBack()
 }

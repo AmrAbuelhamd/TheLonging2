@@ -5,19 +5,31 @@ import android.graphics.Bitmap;
 import com.blogspot.soyamr.thelonging2.engine.Controller;
 
 public class RoomParent {
-    private LivingRoom livingRoom;
+    private Karidor karidor;
     private BedRoom bedRoom;
+    private Kitchen kitchen;
+    private Balcony balcony;
 
-    public RoomParent(Bitmap livingRoomBitmap, Bitmap bedRoomBitmap, Controller controller) {
-        livingRoom = new LivingRoom(livingRoomBitmap, controller, this);
+    public Kitchen getKitchen() {
+        return kitchen;
+    }
+
+    public Balcony getBalcony() {
+        return balcony;
+    }
+
+    public RoomParent(Bitmap karidor, Bitmap bedRoomBitmap, Bitmap kitchenBitmap, Bitmap balaconBitmap, Controller controller) {
+        this.karidor = new Karidor(karidor, controller, this);
         bedRoom = new BedRoom(bedRoomBitmap, controller, this);
+        kitchen = new Kitchen(kitchenBitmap, controller, this);
+        balcony = new Balcony(balaconBitmap, controller, this);
     }
 
     public BedRoom getBedRoom() {
         return bedRoom;
     }
 
-    public LivingRoom getLivingRoom() {
-        return livingRoom;
+    public Karidor getKaridor() {
+        return karidor;
     }
 }
