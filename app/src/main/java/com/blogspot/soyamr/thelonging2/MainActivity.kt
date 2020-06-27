@@ -7,11 +7,10 @@ import android.graphics.*
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.DisplayMetrics
+import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.blogspot.soyamr.thelonging2.elements.house.Room
@@ -22,7 +21,9 @@ import com.blogspot.soyamr.thelonging2.helpers.Utils.appluScallingY
 import com.example.kaushiknsanji.bookslibrary.BookSearchActivity
 
 
-class MainActivity : AppCompatActivity(),ViewParent {
+class MainActivity : AppCompatActivity(), ViewParent {
+    private val time = 20L;
+    private lateinit var scrollview: ScrollView
     private lateinit var textView2: TextView
     private lateinit var textView1: TextView
     lateinit var buttonGoBack: Button
@@ -32,9 +33,9 @@ class MainActivity : AppCompatActivity(),ViewParent {
     lateinit var rootLayout: RelativeLayout
     lateinit var buttonOpenLibirary: Button
     lateinit var parameterOpenLibirary: RelativeLayout.LayoutParams
+    lateinit var fillParentLayout: RelativeLayout.LayoutParams
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         //full screen
         window.setFlags(
@@ -42,31 +43,77 @@ class MainActivity : AppCompatActivity(),ViewParent {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
-        setScallingFactor()
-        gameSurface = GameSurface(this)
-        gameSurface.setZOrderOnTop(true)
-        gameSurface.getHolder().setFormat(PixelFormat.TRANSPARENT);
-
-        backgroundImageView = ImageView(this)
-        backgroundImageView.scaleType = ImageView.ScaleType.FIT_XY
         // Use a RelativeLayout to overlap both SurfaceView and ImageView
-        val fillParentLayout: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+        fillParentLayout = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT
         );
         rootLayout = RelativeLayout(this)
         rootLayout.layoutParams = fillParentLayout;
-        rootLayout.addView(gameSurface, fillParentLayout);
-        rootLayout.addView(backgroundImageView, fillParentLayout);
+
+        showStartingScreen()
 
         setContentView(rootLayout)
 
-        initalizeButtons()
-        initalizeTimer()
-        startTimer()
+    }
+
+    private fun setTheScreen(editTextId: Int, buttonString: Int): Button {
+        scrollview = ScrollView(this)
+        rootLayout.addView(scrollview)
+        val relativeLayout = RelativeLayout(this)
+        scrollview.addView(relativeLayout, fillParentLayout)
+
+        val lp: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        val font = ResourcesCompat.getFont(this, R.font.new_font)
+        val editText = EditText(this)
+        editText.setText(editTextId)
+        editText.setFocusable(false);
+        editText.setClickable(false);
+        editText.setTypeface(font, Typeface.BOLD)
+        editText.textSize = 20f
+        editText.setTextColor(Color.WHITE)
+        editText.setId(View.generateViewId());
+
+        relativeLayout.addView(editText)
+        relativeLayout.setBackgroundColor(Color.BLACK)
+        relativeLayout.setId(View.generateViewId());
+
+
+        val button = Button(this)
+        button.text = resources.getText(buttonString)
+        button.setTypeface(font, Typeface.BOLD)
+
+        lp.addRule(RelativeLayout.BELOW, editText.getId());
+        lp.addRule(RelativeLayout.CENTER_HORIZONTAL)
+        relativeLayout.addView(button, lp)
+        return button;
+    }
+
+    private fun showStartingScreen() {
+        val button = setTheScreen(R.string.game_story, R.string.start)
+        button.setOnClickListener {
+            rootLayout.removeView(scrollview)
+            startGame()
+
+        }
+    }
+
+    private fun showEndingScreen() {
+        this@MainActivity.runOnUiThread {
+            gameSurface.pause()
+            rootLayout.removeView(gameSurface)
+            val button = setTheScreen(R.string.game_ending, R.string.end)
+            button.setOnClickListener {
+                rootLayout.removeView(scrollview)
+                finish()
+            }
+        }
     }
 
     private fun startTimer() {
-        object : CountDownTimer(60 * 60 * 100, 1000) {
+        object : CountDownTimer(60 * 60 * time, 1000) {
             @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long) {
                 val second = millisUntilFinished % (60 * 1000) / 1000
@@ -78,9 +125,27 @@ class MainActivity : AppCompatActivity(),ViewParent {
             }
 
             override fun onFinish() {
-                textView1.text = "done!"
+                showEndingScreen()
             }
         }.start()
+    }
+
+    private fun startGame() {
+        firstTime = false;
+        setScallingFactor()
+        gameSurface = GameSurface(this)
+        gameSurface.setZOrderOnTop(true)
+        gameSurface.getHolder().setFormat(PixelFormat.TRANSPARENT);
+
+        backgroundImageView = ImageView(this)
+        backgroundImageView.scaleType = ImageView.ScaleType.FIT_XY
+
+        rootLayout.addView(gameSurface, fillParentLayout);
+        rootLayout.addView(backgroundImageView, fillParentLayout);
+
+        initalizeButtons()
+        initalizeTimer()
+        startTimer()
     }
 
     private fun initalizeTimer() {
@@ -127,8 +192,8 @@ class MainActivity : AppCompatActivity(),ViewParent {
 
         parameterOpenLibirary = RelativeLayout
             .LayoutParams(appluScallingX(200), appluScallingY(124))
-        parameterOpenLibirary.leftMargin= appluScallingX(1883)
-        parameterOpenLibirary.topMargin= appluScallingY(223)
+        parameterOpenLibirary.leftMargin = appluScallingX(1883)
+        parameterOpenLibirary.topMargin = appluScallingY(223)
 
 
         buttonGoBack = Button(this)
@@ -205,11 +270,17 @@ class MainActivity : AppCompatActivity(),ViewParent {
 
     override fun onPause() {
         super.onPause()
-        gameSurface.pause()
+        if (!firstTime) {
+            gameSurface.pause()
+        }
     }
 
+    var firstTime = true
     override fun onResume() {
         super.onResume()
-        gameSurface.resume()
+        if (!firstTime) {
+            gameSurface.resume()
+        }
+
     }
 }
