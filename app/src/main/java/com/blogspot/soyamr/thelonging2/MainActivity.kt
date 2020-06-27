@@ -24,7 +24,6 @@ import com.example.kaushiknsanji.bookslibrary.BookSearchActivity
 class MainActivity : AppCompatActivity(), ViewParent {
     private val time = 20L;
     private lateinit var scrollview: ScrollView
-    private lateinit var textView2: TextView
     private lateinit var textView1: TextView
     lateinit var buttonGoBack: Button
     lateinit var gameSurface: GameSurface
@@ -72,7 +71,7 @@ class MainActivity : AppCompatActivity(), ViewParent {
         editText.setFocusable(false);
         editText.setClickable(false);
         editText.setTypeface(font, Typeface.BOLD)
-        editText.textSize = 20f
+        editText.textSize = 40f
         editText.setTextColor(Color.WHITE)
         editText.setId(View.generateViewId());
 
@@ -121,7 +120,6 @@ class MainActivity : AppCompatActivity(), ViewParent {
                 val hour = millisUntilFinished % (24 * 60 * 60 * 1000) / (60 * 60 * 1000)
                 val day = millisUntilFinished / (24 * 60 * 60 * 1000)
                 textView1.text = "${day}D:${hour}H:${minute}M:${second}S"
-                textView2.text = "${day}:${hour}:${minute}:${second}"
             }
 
             override fun onFinish() {
@@ -151,13 +149,9 @@ class MainActivity : AppCompatActivity(), ViewParent {
     private fun initalizeTimer() {
         val font = ResourcesCompat.getFont(this, R.font.new_font)
         textView1 = TextView(this)
-        textView2 = TextView(this)
         textView1.setTypeface(font, Typeface.BOLD)
-        textView2.setTypeface(font, Typeface.BOLD)
         textView1.textSize = 20f
-        textView2.textSize = 20f
         textView1.setTextColor(Color.BLACK)
-        textView2.setTextColor(Color.BLACK)
         val parameterTimerTV1 = RelativeLayout
             .LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -175,7 +169,6 @@ class MainActivity : AppCompatActivity(), ViewParent {
         parameterTimerTV2.topMargin = appluScallingY(appluScallingY(125))
 
         rootLayout.addView(textView1, parameterTimerTV1)
-        rootLayout.addView(textView2, parameterTimerTV2)
     }
 
 
