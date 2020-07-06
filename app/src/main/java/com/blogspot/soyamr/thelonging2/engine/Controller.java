@@ -10,7 +10,6 @@ public interface Controller {
     boolean steppingOnRoomObject(int x, int y);
     void addLibraryOpenButton();
     void whereAmI(int x, int y);
-
     boolean reachedFloorEnd(int y);
     int getCurrentFloorY();
 }

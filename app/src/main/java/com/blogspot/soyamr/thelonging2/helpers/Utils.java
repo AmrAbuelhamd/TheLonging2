@@ -57,30 +57,33 @@ public class Utils {
     }
 
     private static void print() {
-        Log.e("amora ",p("\ncharacter width",characterWidth)+p("characterHeight",characterHeight)+"" +
-                ""+p("Utils.screenHeight",Utils.screenHeight)+"" +
-                ""+p("Utils.screenWidth",Utils.screenWidth)+"" +
-                ""+p("SCALING_FACTOR_X",SCALING_FACTOR_X)+"" +
-                ""+p("SCALING_FACTOR_Y",SCALING_FACTOR_Y)+"" +
-                p("floorYEND",FLOOR_Y_END)+
-                p("inital left",INITIAL_LEFT_POSITION)+
-                p("inital right",INITIAL_RIGHT_POSITION));
+        Log.e("amora ", p("\ncharacter width", characterWidth) + p("characterHeight", characterHeight) + "" +
+                "" + p("Utils.screenHeight", Utils.screenHeight) + "" +
+                "" + p("Utils.screenWidth", Utils.screenWidth) + "" +
+                "" + p("SCALING_FACTOR_X", SCALING_FACTOR_X) + "" +
+                "" + p("SCALING_FACTOR_Y", SCALING_FACTOR_Y) + "" +
+                p("floorYEND", FLOOR_Y_END) +
+                p("inital left", INITIAL_LEFT_POSITION) +
+                p("inital right", INITIAL_RIGHT_POSITION));
     }
 
     private static String p(String str, int v) {
-        return " "+str+" = "+v+"\n";
-    } private static String p(String str, double v) {
-        return " "+str+" = "+v+"\n";
+        return " " + str + " = " + v + "\n";
     }
 
-    public static int power2(int a){
-        return a*a;
+    private static String p(String str, double v) {
+        return " " + str + " = " + v + "\n";
     }
 
-    public static int appluScallingX(int value){
-        return (int)(value/SCALING_FACTOR_X);
+    public static int power2(int a) {
+        return a * a;
     }
-    public static int appluScallingY(int value){
-        return (int)(value/SCALING_FACTOR_Y);
+
+    public static int appluScallingX(int value) {
+        return (int) (value / SCALING_FACTOR_X);
+    }
+
+    public static int appluScallingY(int value) {
+        return (int) (value / SCALING_FACTOR_Y);
     }
 }

@@ -12,4 +12,7 @@ interface ViewParent {
     fun removeButtonOpenShelf()
     fun addButtonGoBack()
     fun removeButtonGoBack()
+    fun addButtonOpenFlyGame()
+    fun removeButtonOpenFlyGame()
+
 }

@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-//noinspection GradleCompatible
 apply plugin: 'com.android.library'
 
 android {
