@@ -21,21 +21,17 @@ import com.blogspot.soyamr.thelonging2.helpers.Utils;
 
 public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, Controller {
 
-    private GameThread gameThread;
-
-    private VovaCharacter vova;
-
-    Room currentRoom;
-    private RoomParent roomParent;
-
     private static final int MAX_STREAMS = 100;
+    Room currentRoom;
+    SurfaceHolder holder;
+    private GameThread gameThread;
+    private VovaCharacter vova;
+    private RoomParent roomParent;
     private int soundIdBackground;
-
     private boolean soundPoolLoaded;
     private SoundPool soundPool;
     private ViewParent refToParent;
 
-    public boolean buttonIsShown = false;
 
     public GameSurface(ViewParent object) {
         super(object.getContext());
@@ -58,7 +54,6 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
                 this);
         currentRoom = roomParent.getBedRoom();
     }
-
 
     private void initVovaCharacter() {
         Bitmap vovaBitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.vova);
@@ -90,7 +85,6 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
         // Load the sound background.mp3 into SoundPool
         this.soundIdBackground = this.soundPool.load(this.getContext(), R.raw.background, 1);
     }
-
 
     public void playSoundBackground() {
         if (this.soundPoolLoaded) {
@@ -153,13 +147,13 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
     @Override
     public void whereAmI(int x, int y) {
         if (currentRoom.whereAmI(x, y) == Room.LIBRARY) {
-            if (!buttonIsShown) {
-                refToParent.addButtonBookShelf();
-            }
+
+            refToParent.addButtonBookShelf();
+
         } else {
-            if (buttonIsShown) {
-                refToParent.removeButtonOpenShelf();
-            }
+
+            refToParent.removeButtonOpenShelf();
+
         }
     }
 
@@ -184,9 +178,10 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
 
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         if (currentRoom instanceof Balcony) {
-            if (!buttonIsShown) {
-                refToParent.addButtonGoBack();
-            }
+
+            refToParent.addButtonGoBack();
+            refToParent.addButtonOpenFlyGame();
+
             return;
         }
         vova.draw(canvas);
@@ -225,8 +220,6 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
             }
         }
     }
-
-    SurfaceHolder holder;
 
     public void resume() {
         soundPool.autoResume();
