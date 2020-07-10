@@ -12,6 +12,11 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/book_shelf_library" />
+            <option value="$PROJECT_DIR$/flygame" />
+            <option value="$PROJECT_DIR$/helicopterGame" />
+            <option value="$PROJECT_DIR$/pokimon" />
+            <option value="$PROJECT_DIR$/puzzle" />
+            <option value="$PROJECT_DIR$/race" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

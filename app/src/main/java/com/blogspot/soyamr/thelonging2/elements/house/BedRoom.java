@@ -56,6 +56,12 @@ class BedRoom extends Room {
             new Point(1786, 802, true),
             new Point(1553, 802, true)
     };
+    static Point[] tv = {
+            new Point(132, 788, true),
+            new Point(523, 788, true),
+            new Point(523, 1080, true),
+            new Point(132, 1080, true),
+    };
 
     private RoomParent roomParent;
     private Controller controller;
@@ -90,6 +96,8 @@ class BedRoom extends Room {
     public int whereAmI(int x, int y) {
         if (RayCastingAlgorithm.isInside(bookShelf, new Point(x, y)))
             return Room.LIBRARY;
+        else if (RayCastingAlgorithm.isInside(tv, new Point(x+Utils.characterWidth/2, y+Utils.characterHeight)))
+            return Room.TV;
         else
             return -1;
     }

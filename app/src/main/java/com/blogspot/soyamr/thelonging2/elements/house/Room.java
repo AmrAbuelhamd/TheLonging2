@@ -8,6 +8,7 @@ import com.blogspot.soyamr.thelonging2.helpers.Utils;
 
 abstract public class Room {
     public static final int LIBRARY = 0;
+    public static final int TV = 1;
 
     private Point[] rightDoor;
     private Point[] leftDoor;

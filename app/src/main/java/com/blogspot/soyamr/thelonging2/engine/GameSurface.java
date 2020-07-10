@@ -140,20 +140,17 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
     }
 
     @Override
-    public void addLibraryOpenButton() {
-        refToParent.addButtonBookShelf();
-    }
-
-    @Override
     public void whereAmI(int x, int y) {
-        if (currentRoom.whereAmI(x, y) == Room.LIBRARY) {
-
-            refToParent.addButtonBookShelf();
-
-        } else {
-
-            refToParent.removeButtonOpenShelf();
-
+        int objectCode = currentRoom.whereAmI(x,y);
+        switch (objectCode){
+            case Room.LIBRARY:
+                refToParent.addButtonBookShelf();
+                break;
+            case Room.TV:
+                refToParent.addPuzzleButton();
+                break;
+            default:
+                refToParent.removeButtons();
         }
     }
 
@@ -165,6 +162,16 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
     @Override
     public int getCurrentFloorY() {
         return currentRoom.getFloorYend();
+    }
+
+    @Override
+    public void startPokimonGame() {
+        refToParent.startPokimonGame();
+    }
+
+    @Override
+    public void startRaceGame() {
+        refToParent.startRaceGame();
     }
 
     public void update() {
@@ -179,8 +186,7 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         if (currentRoom instanceof Balcony) {
 
-            refToParent.addButtonGoBack();
-            refToParent.addButtonOpenFlyGame();
+            refToParent.initailizeBalaconButtons();
 
             return;
         }

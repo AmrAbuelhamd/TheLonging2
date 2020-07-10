@@ -1,2 +1,7 @@
+include ':race'
+include ':puzzle'
+include ':pokimon'
+include ':helicopterGame'
+include ':flygame'
 rootProject.name='The Longing 2'
 include ':app', ':book_shelf_library'

@@ -12,11 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity
-            android:name=".bookshelf.LibraryShelf"
-            android:label="@string/title_activity_library_shelf"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        android:usesCleartextTraffic="true"
+        tools:replace="android:icon,android:label">
+
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

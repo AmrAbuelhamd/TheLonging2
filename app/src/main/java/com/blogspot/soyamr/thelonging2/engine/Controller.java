@@ -8,8 +8,11 @@ public interface Controller {
     void moveToTheRight();
     void moveToTheLeft();
     boolean steppingOnRoomObject(int x, int y);
-    void addLibraryOpenButton();
     void whereAmI(int x, int y);
     boolean reachedFloorEnd(int y);
     int getCurrentFloorY();
+
+    void startPokimonGame();
+
+    void startRaceGame();
 }

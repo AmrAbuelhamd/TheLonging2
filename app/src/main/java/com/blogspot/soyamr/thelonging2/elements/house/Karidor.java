@@ -2,13 +2,10 @@ package com.blogspot.soyamr.thelonging2.elements.house;
 
 import android.graphics.Bitmap;
 
-import com.blogspot.soyamr.thelonging2.elements.character.VovaCharacter;
 import com.blogspot.soyamr.thelonging2.engine.Controller;
 import com.blogspot.soyamr.thelonging2.helpers.Point;
 import com.blogspot.soyamr.thelonging2.helpers.RayCastingAlgorithm;
 import com.blogspot.soyamr.thelonging2.helpers.Utils;
-
-import static com.blogspot.soyamr.thelonging2.helpers.Utils.BOTTOM_TO_TOP;
 
 public class Karidor extends Room {
 
@@ -20,12 +17,25 @@ public class Karidor extends Room {
             new Point(0, 844, true),
     };
 
+    //right door
+    static Point[] rightDoor = {
+            new Point(2260, 212, true),
+            new Point(2188, 247, true),
+            new Point(2188, 788, true),
+            new Point(2260, 855, true),
+    };
 
     static Point[] kitchenDoor = {
-            new Point(340, 200, true),
-            new Point(620, 200, true),
-            new Point(662, 783, true),
-            new Point(345, 781, true),
+            new Point(348, 745, true),
+            new Point(620, 745, true),
+            new Point(620, 850, true),
+            new Point(348, 850, true),
+    };
+    static Point[] afterKitchen = {
+            new Point(740, 745, true),
+            new Point(1012, 745, true),
+            new Point(740, 850, true),
+            new Point(1012, 850, true),
     };
 
     //floor
@@ -51,10 +61,11 @@ public class Karidor extends Room {
 
     private RoomParent roomParent;
     private Controller controller;
+
     //another elements
     //elements that only belongs to LivingRoom
     public Karidor(Bitmap roomBitmap, Controller controller, RoomParent roomParent) {
-        super(null, leftDoor, floor, roomBitmap, Utils.appluScallingY(745));
+        super(rightDoor, leftDoor, floor, roomBitmap, Utils.appluScallingY(745));
         this.controller = controller;
         this.roomParent = roomParent;
     }
@@ -63,10 +74,16 @@ public class Karidor extends Room {
         if (hasReachedLeftDoor(x, y)) {
             controller.changeBackground(roomParent.getBedRoom());
             controller.moveToTheRight();
-        } else if (RayCastingAlgorithm.isInside(kitchenDoor, new Point(x, y))
-                && VovaCharacter.DIRECTION == BOTTOM_TO_TOP) {
+        } else if (RayCastingAlgorithm.isInside(kitchenDoor,
+                new Point((x + Utils.characterWidth / 2), y + Utils.characterHeight)
+        )) {
             controller.changeBackground(roomParent.getKitchen());
             controller.moveToTheRight();
+        } else if (hasReachedRightDoor(x, y)) {
+            controller.startPokimonGame();
+        } else if (RayCastingAlgorithm.isInside(afterKitchen,
+                new Point(x + Utils.characterWidth / 2, y + Utils.characterHeight))) {
+            controller.startRaceGame();
         }
     }
 

@@ -13,6 +13,7 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import com.M00271117.motraining.rpgame.MrNomGame
 import com.blogspot.soyamr.thelonging2.elements.house.Room
 import com.blogspot.soyamr.thelonging2.engine.GameSurface
 import com.blogspot.soyamr.thelonging2.helpers.Utils
@@ -20,21 +21,28 @@ import com.blogspot.soyamr.thelonging2.helpers.Utils.appluScallingX
 import com.blogspot.soyamr.thelonging2.helpers.Utils.appluScallingY
 import com.example.kaushiknsanji.bookslibrary.BookSearchActivity
 import com.heyletscode.ihavetofly.IHaveToFlyActivity
+import com.nav.gamepack.GamePackActivity
+import com.sIlence.androidracer.AndroidRacer
+import dk.brams.android.myfirstgame.Game
 
 
 class MainActivity : AppCompatActivity(), ViewParent {
     lateinit var parameterFlyGameButton: RelativeLayout.LayoutParams
+    lateinit var parameterHelicopterButton: RelativeLayout.LayoutParams
     private val time = 20L;
     private lateinit var scrollview: ScrollView
     private lateinit var textView1: TextView
-    lateinit var buttonGoBack: Button
+    private lateinit var buttonGoBack: Button
     lateinit var gameSurface: GameSurface
     lateinit var backgroundImageView: ImageView
     lateinit var currentRoom: Room
     lateinit var rootLayout: RelativeLayout
     lateinit var buttonOpenLibirary: Button
+    lateinit var buttonOpenPuzzle: Button
     lateinit var buttonOpenFlyGame: Button
+    lateinit var buttonOpenHelicopterGame: Button
     lateinit var parameterOpenLibirary: RelativeLayout.LayoutParams
+    lateinit var parameterOpenPuzzle: RelativeLayout.LayoutParams
     lateinit var fillParentLayout: RelativeLayout.LayoutParams
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +61,8 @@ class MainActivity : AppCompatActivity(), ViewParent {
         rootLayout.layoutParams = fillParentLayout;
 
         showStartingScreen()
+//        val intent = Intent(this, MrNomGame::class.java)//to be used later
+//        startActivity(intent)
 
         setContentView(rootLayout)
 
@@ -104,6 +114,7 @@ class MainActivity : AppCompatActivity(), ViewParent {
 
     private fun showEndingScreen() {
         this@MainActivity.runOnUiThread {
+            removeButtons()
             gameSurface.pause()
             rootLayout.removeView(gameSurface)
             val button = setTheScreen(R.string.game_ending, R.string.end)
@@ -178,11 +189,10 @@ class MainActivity : AppCompatActivity(), ViewParent {
     private fun initalizeButtons() {
         buttonOpenLibirary = Button(this)
         buttonOpenLibirary.tag = "openLibraryButtonView"
-//        buttonOpenLibirary.text = "open the library"
         buttonOpenLibirary.background = getDrawable(R.drawable.openbook)
         buttonOpenLibirary.setOnClickListener {
             val intent = Intent(this, BookSearchActivity::class.java)
-            removeButtonOpenShelf();
+            removeButtons()
             startActivity(intent)
         }
 
@@ -191,28 +201,56 @@ class MainActivity : AppCompatActivity(), ViewParent {
         parameterOpenLibirary.leftMargin = appluScallingX(1883)
         parameterOpenLibirary.topMargin = appluScallingY(223)
 
+
+        parameterOpenPuzzle = RelativeLayout
+            .LayoutParams(appluScallingX(120), appluScallingY(150))
+        parameterOpenPuzzle.leftMargin = appluScallingX(430)
+        parameterOpenPuzzle.topMargin = appluScallingY(323)
+
+
         parameterFlyGameButton = RelativeLayout
             .LayoutParams(appluScallingX(200), appluScallingY(124))
         parameterFlyGameButton.leftMargin = appluScallingX(1883)
         parameterFlyGameButton.topMargin = appluScallingY(423)
 
+        parameterHelicopterButton = RelativeLayout
+            .LayoutParams(appluScallingX(200), appluScallingY(124))
+        parameterHelicopterButton.leftMargin = appluScallingX(1883)
+        parameterHelicopterButton.topMargin = appluScallingY(623)
+
+
+        buttonOpenPuzzle= Button(this)
+        buttonOpenPuzzle.tag = "buttonOpenPuzzle"
+        buttonOpenPuzzle.background = getDrawable(R.drawable.puzzle)
+        buttonOpenPuzzle.setOnClickListener {
+            val intent = Intent(this, GamePackActivity::class.java)
+            removeButtons()
+            startActivity(intent)
+        }
+
 
         buttonGoBack = Button(this)
         buttonGoBack.tag = "goBackButtonView"
-        buttonGoBack.background = getDrawable(R.drawable.goback)
+        buttonGoBack.background = getDrawable(R.drawable.bed_room_day)
         buttonGoBack.setOnClickListener {
             gameSurface.changeBackground(currentRoom.nextRoom)
-            removeButtonGoBack()
-            removeButtonOpenFlyGame()
+            removeButtons()
             gameSurface.moveToTheLeft()
         }
 
         buttonOpenFlyGame = Button(this)
         buttonOpenFlyGame.tag = "buttonOpenFlyGame"
-//        buttonOpenLibirary.text = "open the library"
-        buttonOpenFlyGame.background = getDrawable(R.drawable.flygame)
+        buttonOpenFlyGame.background = getDrawable(R.drawable.fly1)
         buttonOpenFlyGame.setOnClickListener {
             val intent = Intent(this, IHaveToFlyActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonOpenHelicopterGame = Button(this)
+        buttonOpenHelicopterGame.tag = "buttonOpenHelicopterGame"
+        buttonOpenHelicopterGame.background = getDrawable(R.drawable.helicopter2)
+        buttonOpenHelicopterGame.setOnClickListener {
+            val intent = Intent(this, Game::class.java)
             startActivity(intent)
         }
     }
@@ -235,39 +273,46 @@ class MainActivity : AppCompatActivity(), ViewParent {
         }
     }
 
-    override fun removeButtonOpenShelf() {
-        this@MainActivity.runOnUiThread {
-            rootLayout.removeView(buttonOpenLibirary)
-        }
-    }
 
-    override fun addButtonGoBack() {
+    override fun initailizeBalaconButtons() {
         this@MainActivity.runOnUiThread {
             if (rootLayout.findViewWithTag<Button>("goBackButtonView") == null)
                 rootLayout.addView(buttonGoBack, parameterOpenLibirary)
-        }
-    }
-
-    override fun removeButtonGoBack() {
-        this@MainActivity.runOnUiThread {
-            rootLayout.removeView(buttonGoBack)
-        }
-    }
-
-    override fun addButtonOpenFlyGame() {
-        this@MainActivity.runOnUiThread {
             if (rootLayout.findViewWithTag<Button>("buttonOpenFlyGame") == null)
                 rootLayout.addView(buttonOpenFlyGame, parameterFlyGameButton)
-
+            if (rootLayout.findViewWithTag<Button>("buttonOpenHelicopterGame") == null)
+                rootLayout.addView(buttonOpenHelicopterGame, parameterHelicopterButton)
         }
     }
 
-    override fun removeButtonOpenFlyGame() {
+
+    override fun addPuzzleButton() {
         this@MainActivity.runOnUiThread {
-            rootLayout.removeView(buttonOpenFlyGame)
-
+            if (rootLayout.findViewWithTag<Button>("buttonOpenPuzzle") == null)
+                rootLayout.addView(buttonOpenPuzzle, parameterOpenPuzzle)
         }
     }
+
+    override fun removeButtons() {
+        this@MainActivity.runOnUiThread {
+            rootLayout.removeView(buttonGoBack)
+            rootLayout.removeView(buttonOpenFlyGame)
+            rootLayout.removeView(buttonOpenHelicopterGame)
+            rootLayout.removeView(buttonOpenLibirary)
+            rootLayout.removeView(buttonOpenPuzzle)
+        }
+    }
+
+    override fun startPokimonGame() {
+        val intent = Intent(this, MrNomGame::class.java)
+        startActivity(intent)
+    }
+
+    override fun startRaceGame() {
+        val intent = Intent(this, AndroidRacer::class.java)
+        startActivity(intent)
+    }
+
 
     private fun getScreenMetrics(): Pair<Int, Int> {
         val displayMetrics = DisplayMetrics()
@@ -282,8 +327,7 @@ class MainActivity : AppCompatActivity(), ViewParent {
         this@MainActivity.runOnUiThread {
             backgroundImageView.setImageBitmap(room.roomBitmap);
             currentRoom = room
-            removeButtonGoBack();
-            removeButtonOpenFlyGame();
+            removeButtons()
         }
     }
 

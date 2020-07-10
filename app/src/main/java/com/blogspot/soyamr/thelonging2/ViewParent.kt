@@ -9,10 +9,10 @@ interface ViewParent {
     fun getContext(): Context
     fun getRoomBitmap(roomID: Int): Bitmap?
     fun addButtonBookShelf()
-    fun removeButtonOpenShelf()
-    fun addButtonGoBack()
-    fun removeButtonGoBack()
-    fun addButtonOpenFlyGame()
-    fun removeButtonOpenFlyGame()
+    fun initailizeBalaconButtons()
+    fun addPuzzleButton()
+    fun removeButtons()
+    fun startPokimonGame()
+    fun startRaceGame()
 
 }
