@@ -24,14 +24,13 @@ import com.heyletscode.ihavetofly.IHaveToFlyActivity
 import com.nav.gamepack.GamePackActivity
 import com.sIlence.androidracer.AndroidRacer
 import dk.brams.android.myfirstgame.Game
-import progark.a15.GameActivity_getwang
 import progark.a15.MainMenuActivity
 
 
 class MainActivity : AppCompatActivity(), ViewParent {
     lateinit var parameterFlyGameButton: RelativeLayout.LayoutParams
     lateinit var parameterHelicopterButton: RelativeLayout.LayoutParams
-    private val time = 40L;
+    private val time = 60L;
     private lateinit var scrollview: ScrollView
     private lateinit var textView1: TextView
     private lateinit var buttonGoBack: Button
@@ -63,8 +62,6 @@ class MainActivity : AppCompatActivity(), ViewParent {
         rootLayout.layoutParams = fillParentLayout;
 
         showStartingScreen()
-//        val intent = Intent(this, MrNomGame::class.java)//to be used later
-//        startActivity(intent)
 
         setContentView(rootLayout)
 
@@ -109,9 +106,26 @@ class MainActivity : AppCompatActivity(), ViewParent {
         val button = setTheScreen(R.string.game_story, R.string.start)
         button.setOnClickListener {
             rootLayout.removeView(scrollview)
-            startGame()
-
+            showInstrucitons()
         }
+    }
+
+    var ctr = 0;
+
+    private fun showInstrucitons() {
+        val imageView = ImageView(this)
+        imageView.background = resources.getDrawable(R.drawable.instruction2)
+        imageView.setOnClickListener {
+            if (++ctr == 2) {
+                rootLayout.removeView(imageView)
+                startGame()
+            } else {
+                imageView.background = resources.getDrawable(R.drawable.instruction1)
+                Toast.makeText(this, "touch anywhere to go next", Toast.LENGTH_LONG).show()
+            }
+        }
+        rootLayout.addView(imageView)
+        Toast.makeText(this, "touch anywhere to go next", Toast.LENGTH_LONG).show()
     }
 
     private fun showEndingScreen() {
