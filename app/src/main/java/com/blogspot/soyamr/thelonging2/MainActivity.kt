@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity(), ViewParent {
                 imageView.background = resources.getDrawable(R.drawable.instruction1)
             }
         }
-        rootLayout.addView(imageView,imageViewParameter)
+        rootLayout.addView(imageView, imageViewParameter)
     }
 
     private fun showEndingScreen() {
@@ -289,7 +289,6 @@ class MainActivity : AppCompatActivity(), ViewParent {
         }
     }
 
-
     private fun setScallingFactor() {
         val xy = getScreenMetrics();
         Utils.setXScalingFactor(xy.first, xy.second)
@@ -361,7 +360,6 @@ class MainActivity : AppCompatActivity(), ViewParent {
         }
     }
 
-
     private fun getScreenMetrics(): Pair<Int, Int> {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -369,7 +367,6 @@ class MainActivity : AppCompatActivity(), ViewParent {
         val width = displayMetrics.widthPixels
         return Pair(height, width)
     }
-
 
     override fun changeBackground(room: Room) {
         this@MainActivity.runOnUiThread {
