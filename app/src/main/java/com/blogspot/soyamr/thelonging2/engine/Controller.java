@@ -15,4 +15,6 @@ public interface Controller {
     void startPokimonGame();
 
     void startRaceGame();
+
+    void startWangGame();
 }

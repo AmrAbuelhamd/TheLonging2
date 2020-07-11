@@ -24,12 +24,14 @@ import com.heyletscode.ihavetofly.IHaveToFlyActivity
 import com.nav.gamepack.GamePackActivity
 import com.sIlence.androidracer.AndroidRacer
 import dk.brams.android.myfirstgame.Game
+import progark.a15.GameActivity_getwang
+import progark.a15.MainMenuActivity
 
 
 class MainActivity : AppCompatActivity(), ViewParent {
     lateinit var parameterFlyGameButton: RelativeLayout.LayoutParams
     lateinit var parameterHelicopterButton: RelativeLayout.LayoutParams
-    private val time = 20L;
+    private val time = 40L;
     private lateinit var scrollview: ScrollView
     private lateinit var textView1: TextView
     private lateinit var buttonGoBack: Button
@@ -310,6 +312,11 @@ class MainActivity : AppCompatActivity(), ViewParent {
 
     override fun startRaceGame() {
         val intent = Intent(this, AndroidRacer::class.java)
+        startActivity(intent)
+    }
+
+    override fun startWangGame() {
+        val intent = Intent(this, MainMenuActivity::class.java)
         startActivity(intent)
     }
 

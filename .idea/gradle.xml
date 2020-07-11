@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/pokimon" />
             <option value="$PROJECT_DIR$/puzzle" />
             <option value="$PROJECT_DIR$/race" />
+            <option value="$PROJECT_DIR$/wangGame" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

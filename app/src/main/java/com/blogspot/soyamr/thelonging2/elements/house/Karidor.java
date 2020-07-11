@@ -36,6 +36,11 @@ public class Karidor extends Room {
             new Point(1012, 745, true),
             new Point(740, 850, true),
             new Point(1012, 850, true),
+    };static Point[] afterAfterKitchen = {
+            new Point(1418, 745, true),
+            new Point(1146, 745, true),
+            new Point(1422, 850, true),
+            new Point(1146, 850, true),
     };
 
     //floor
@@ -84,6 +89,9 @@ public class Karidor extends Room {
         } else if (RayCastingAlgorithm.isInside(afterKitchen,
                 new Point(x + Utils.characterWidth / 2, y + Utils.characterHeight))) {
             controller.startRaceGame();
+        }else if (RayCastingAlgorithm.isInside(afterAfterKitchen,
+                new Point(x + Utils.characterWidth / 2, y + Utils.characterHeight))) {
+            controller.startWangGame();
         }
     }
 

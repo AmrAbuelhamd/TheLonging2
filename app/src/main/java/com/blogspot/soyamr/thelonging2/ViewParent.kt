@@ -14,5 +14,6 @@ interface ViewParent {
     fun removeButtons()
     fun startPokimonGame()
     fun startRaceGame()
+    fun startWangGame()
 
 }

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:icon,android:label">
+        tools:replace="android:icon,android:label,android:theme">
 
         <activity
             android:name=".MainActivity"

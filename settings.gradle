@@ -1,3 +1,4 @@
+include ':wangGame'
 include ':race'
 include ':puzzle'
 include ':pokimon'

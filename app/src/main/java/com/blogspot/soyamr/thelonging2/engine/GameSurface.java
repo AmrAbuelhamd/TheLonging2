@@ -174,6 +174,11 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
         refToParent.startRaceGame();
     }
 
+    @Override
+    public void startWangGame() {
+        refToParent.startWangGame();
+    }
+
     public void update() {
 
         vova.update();
