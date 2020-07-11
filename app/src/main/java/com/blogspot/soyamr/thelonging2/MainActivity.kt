@@ -24,13 +24,15 @@ import com.heyletscode.ihavetofly.IHaveToFlyActivity
 import com.nav.gamepack.GamePackActivity
 import com.sIlence.androidracer.AndroidRacer
 import dk.brams.android.myfirstgame.Game
+import fsu.android.tictactoe.TicTacToe
 import progark.a15.MainMenuActivity
 
 
 class MainActivity : AppCompatActivity(), ViewParent {
     lateinit var parameterFlyGameButton: RelativeLayout.LayoutParams
     lateinit var parameterHelicopterButton: RelativeLayout.LayoutParams
-    private val time = 60L;
+    lateinit var parameterTikTokToeButton: RelativeLayout.LayoutParams
+    private val time = 120L;
     private lateinit var scrollview: ScrollView
     private lateinit var textView1: TextView
     private lateinit var buttonGoBack: Button
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity(), ViewParent {
     lateinit var currentRoom: Room
     lateinit var rootLayout: RelativeLayout
     lateinit var buttonOpenLibirary: Button
+    lateinit var buttonOpenTikTokToe: Button
     lateinit var buttonOpenPuzzle: Button
     lateinit var buttonOpenFlyGame: Button
     lateinit var buttonOpenHelicopterGame: Button
@@ -113,19 +116,20 @@ class MainActivity : AppCompatActivity(), ViewParent {
     var ctr = 0;
 
     private fun showInstrucitons() {
+
         val imageView = ImageView(this)
         imageView.background = resources.getDrawable(R.drawable.instruction2)
+        val imageViewParameter = RelativeLayout
+            .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         imageView.setOnClickListener {
             if (++ctr == 2) {
                 rootLayout.removeView(imageView)
                 startGame()
             } else {
                 imageView.background = resources.getDrawable(R.drawable.instruction1)
-                Toast.makeText(this, "touch anywhere to go next", Toast.LENGTH_LONG).show()
             }
         }
-        rootLayout.addView(imageView)
-        Toast.makeText(this, "touch anywhere to go next", Toast.LENGTH_LONG).show()
+        rootLayout.addView(imageView,imageViewParameter)
     }
 
     private fun showEndingScreen() {
@@ -217,6 +221,20 @@ class MainActivity : AppCompatActivity(), ViewParent {
         parameterOpenLibirary.leftMargin = appluScallingX(1883)
         parameterOpenLibirary.topMargin = appluScallingY(223)
 
+        buttonOpenTikTokToe = Button(this)
+        buttonOpenTikTokToe.tag = "buttonOpenTikTokToe"
+        buttonOpenTikTokToe.background = getDrawable(R.drawable.o7background)
+        buttonOpenTikTokToe.setOnClickListener {
+            val intent = Intent(this, TicTacToe::class.java)
+            removeButtons()
+            startActivity(intent)
+        }
+
+        parameterTikTokToeButton = RelativeLayout
+            .LayoutParams(appluScallingX(124), appluScallingY(124))
+        parameterTikTokToeButton.leftMargin = appluScallingX(780)
+        parameterTikTokToeButton.topMargin = appluScallingY(200)
+
 
         parameterOpenPuzzle = RelativeLayout
             .LayoutParams(appluScallingX(120), appluScallingY(150))
@@ -235,7 +253,7 @@ class MainActivity : AppCompatActivity(), ViewParent {
         parameterHelicopterButton.topMargin = appluScallingY(623)
 
 
-        buttonOpenPuzzle= Button(this)
+        buttonOpenPuzzle = Button(this)
         buttonOpenPuzzle.tag = "buttonOpenPuzzle"
         buttonOpenPuzzle.background = getDrawable(R.drawable.puzzle)
         buttonOpenPuzzle.setOnClickListener {
@@ -316,6 +334,7 @@ class MainActivity : AppCompatActivity(), ViewParent {
             rootLayout.removeView(buttonOpenHelicopterGame)
             rootLayout.removeView(buttonOpenLibirary)
             rootLayout.removeView(buttonOpenPuzzle)
+            rootLayout.removeView(buttonOpenTikTokToe)
         }
     }
 
@@ -332,6 +351,14 @@ class MainActivity : AppCompatActivity(), ViewParent {
     override fun startWangGame() {
         val intent = Intent(this, MainMenuActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun addTIKTOKTOEButton() {
+        this@MainActivity.runOnUiThread {
+            if (rootLayout.findViewWithTag<Button>("buttonOpenTikTokToe") == null)
+                rootLayout.addView(buttonOpenTikTokToe, parameterTikTokToeButton)
+
+        }
     }
 
 

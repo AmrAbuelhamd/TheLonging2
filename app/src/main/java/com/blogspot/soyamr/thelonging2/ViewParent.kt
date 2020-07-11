@@ -15,5 +15,6 @@ interface ViewParent {
     fun startPokimonGame()
     fun startRaceGame()
     fun startWangGame()
+    fun addTIKTOKTOEButton()
 
 }

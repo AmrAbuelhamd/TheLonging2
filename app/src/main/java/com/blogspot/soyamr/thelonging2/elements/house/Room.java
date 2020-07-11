@@ -2,6 +2,7 @@ package com.blogspot.soyamr.thelonging2.elements.house;
 
 import android.graphics.Bitmap;
 
+import com.blogspot.soyamr.thelonging2.classes.mainRoom.microActions.bookShelf.PutBook;
 import com.blogspot.soyamr.thelonging2.helpers.Point;
 import com.blogspot.soyamr.thelonging2.helpers.RayCastingAlgorithm;
 import com.blogspot.soyamr.thelonging2.helpers.Utils;
@@ -9,6 +10,7 @@ import com.blogspot.soyamr.thelonging2.helpers.Utils;
 abstract public class Room {
     public static final int LIBRARY = 0;
     public static final int TV = 1;
+    public static final int KITCHEN_WINDOW = 2;
 
     private Point[] rightDoor;
     private Point[] leftDoor;

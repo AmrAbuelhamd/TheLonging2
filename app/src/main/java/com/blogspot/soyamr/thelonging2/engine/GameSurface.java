@@ -149,6 +149,9 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback, 
             case Room.TV:
                 refToParent.addPuzzleButton();
                 break;
+            case Room.KITCHEN_WINDOW:
+                refToParent.addTIKTOKTOEButton();
+                break;
             default:
                 refToParent.removeButtons();
         }

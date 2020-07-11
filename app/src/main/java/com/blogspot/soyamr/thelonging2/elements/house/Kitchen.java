@@ -63,7 +63,10 @@ public  class Kitchen extends Room {
 
     @Override
     public int whereAmI(int x, int y) {
-        return -1;
+        if (x < Utils.appluScallingX(370))
+            return Room.KITCHEN_WINDOW;
+        else
+            return -1;
     }
 
     @Override
